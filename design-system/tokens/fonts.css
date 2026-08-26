@@ -1,0 +1,17 @@
+/* Ember webfonts.
+
+   SUBSTITUTION NOTE: the brief asked for Vercel's pixel typeface, which is not
+   publicly licensed for redistribution. Silkscreen (Google Fonts, OFL) is the
+   nearest open bitmap-pixel match.
+
+   All three families — Silkscreen (pixel), IBM Plex Mono, Instrument Sans —
+   load from the Google Fonts @import at the top of styles.css, so there are no
+   font binaries in this project yet.
+
+   TO SELF-HOST (or to swap in real licensed pixel files): drop the .woff2 files
+   into assets/fonts/ and uncomment the block below, then update --font-pixel in
+   tokens/typography.css to name the local family first.
+
+   @font-face{font-family:"Ember Pixel";src:url("../assets/fonts/pixel-regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+   @font-face{font-family:"Ember Pixel";src:url("../assets/fonts/pixel-bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+*/

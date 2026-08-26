@@ -1,0 +1,34 @@
+/* ── Type ──────────────────────────────────────────────────────
+   Three families, strictly zoned:
+   pixel  → wordmark, countdown, overlines, buttons. Never body copy.
+   mono   → numbers, metadata, labels, session lists.
+   sans   → sentences. Anything longer than four words. */
+:root{
+  --font-pixel:"Silkscreen",ui-monospace,monospace;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+  --font-sans:"Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+
+  --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700;
+
+  /* Sizes. Pixel type only ever sits on even multiples so the bitmap
+     grid stays crisp: 10, 12, 14, 16, 20, 24, 32, 48, 64, 96, 128. */
+  --text-2xs:10px; --text-xs:12px; --text-sm:14px; --text-md:16px;
+  --text-lg:20px; --text-xl:24px; --text-2xl:32px; --text-3xl:48px;
+  --display-sm:64px; --display-md:96px; --display-lg:128px;
+
+  --leading-tight:1; --leading-snug:1.25; --leading-normal:1.5; --leading-relaxed:1.65;
+
+  /* Pixel faces need air between glyphs; mono labels are tracked out wide. */
+  --tracking-pixel:0.04em; --tracking-overline:0.18em; --tracking-mono:0.02em; --tracking-sans:0em;
+}
+
+/* ── Text roles ──────────────────────────────────────────────── */
+.em-display{font-family:var(--font-pixel);font-weight:var(--weight-bold);font-size:var(--display-md);line-height:var(--leading-tight);letter-spacing:var(--tracking-pixel);color:var(--text-primary)}
+.em-countdown{font-family:var(--font-pixel);font-weight:var(--weight-bold);font-size:var(--display-lg);line-height:var(--leading-tight);letter-spacing:0.02em;font-variant-numeric:tabular-nums;color:var(--text-primary)}
+.em-title{font-family:var(--font-pixel);font-weight:var(--weight-bold);font-size:var(--text-xl);line-height:var(--leading-snug);letter-spacing:var(--tracking-pixel);color:var(--text-primary)}
+.em-subtitle{font-family:var(--font-pixel);font-weight:var(--weight-regular);font-size:var(--text-md);line-height:var(--leading-snug);letter-spacing:var(--tracking-pixel);color:var(--text-primary)}
+.em-overline{font-family:var(--font-pixel);font-weight:var(--weight-regular);font-size:var(--text-2xs);line-height:var(--leading-tight);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--text-muted)}
+.em-body{font-family:var(--font-sans);font-weight:var(--weight-regular);font-size:var(--text-md);line-height:var(--leading-relaxed);letter-spacing:var(--tracking-sans);color:var(--text-secondary);text-wrap:pretty}
+.em-body-sm{font-family:var(--font-sans);font-weight:var(--weight-regular);font-size:var(--text-sm);line-height:var(--leading-normal);color:var(--text-secondary);text-wrap:pretty}
+.em-label{font-family:var(--font-mono);font-weight:var(--weight-medium);font-size:var(--text-xs);line-height:var(--leading-normal);letter-spacing:var(--tracking-mono);color:var(--text-secondary)}
+.em-numeric{font-family:var(--font-mono);font-weight:var(--weight-medium);font-size:var(--text-sm);font-variant-numeric:tabular-nums;letter-spacing:var(--tracking-mono);color:var(--text-primary)}

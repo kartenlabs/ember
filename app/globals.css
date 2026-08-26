@@ -1,0 +1,277 @@
+/* ══════════════════════════════════════════════════════════════════
+   Ember — global stylesheet.
+
+   The blocks below are the Ember design-system token files, copied
+   verbatim from design-system/tokens/ in the order design-system/
+   styles.css imports them. That order matters: edges.css reads colour
+   tokens, and base.css reads everything.
+
+   Where a value here and a value in the reference JSX disagree, these
+   token files win — they are the source of truth.
+
+   tokens/fonts.css is not copied: it declares zero properties (it is a
+   comment block plus a commented-out self-hosting @font-face). Its two
+   substantive notes travel here instead:
+
+   SUBSTITUTION NOTE: the brief asked for Vercel's pixel typeface, which
+   is not publicly licensed for redistribution. Silkscreen (Google Fonts,
+   OFL) is the nearest open bitmap-pixel match.
+
+   The three families load through next/font/google in app/layout.tsx,
+   which self-hosts them at build time — no request reaches Google from
+   the browser, and no font binaries are committed here. To swap in a
+   licensed pixel face, point --font-pixel at it below; nothing else in
+   the system changes.
+   ══════════════════════════════════════════════════════════════════ */
+
+
+/* ═══ tokens/colors.css ══════════════════════════════════════════ */
+/* ── Ember palette ─────────────────────────────────────────────
+   Warm dusk. A near-black that still reads warm, cream-not-white text,
+   and three low-chroma accents that map 1:1 to the three timer modes. */
+:root{
+  /* Ink — warm near-blacks, app chrome */
+  --ink-900:#100E0C; --ink-800:#17130F; --ink-700:#1F1A15; --ink-600:#282118;
+  --ink-500:#332B22; --ink-400:#463C31;
+
+  /* Cream — text and light surfaces */
+  --cream-100:#F3ECE0; --cream-200:#E4DACA; --cream-300:#CFC3B0; --cream-400:#A99C89;
+  --cream-500:#7E7263; --cream-600:#5A5044;
+
+  /* Amber — focus mode, primary action */
+  --amber-300:#F2C079; --amber-400:#E8A64C; --amber-500:#D98B2C; --amber-600:#B26F1F;
+
+  /* Sage — short break */
+  --sage-300:#A8C4A2; --sage-400:#86A87F; --sage-500:#688B62; --sage-600:#4E6C49;
+
+  /* Clay — long break, destructive */
+  --clay-300:#E09B7E;
+  --clay-400:#C97558; --clay-500:#B45B3E; --clay-600:#8F4530;
+
+  /* Haze — informational, muted lavender-grey */
+  --haze-300:#B3B4CC; --haze-400:#9295B4; --haze-500:#737796;
+}
+
+/* ── Semantic aliases (use these in components) ───────────────── */
+:root{
+  --surface-app:var(--ink-900);
+  --surface-card:var(--ink-800);
+  --surface-raised:var(--ink-700);
+  --surface-sunken:#0B0908;
+  --surface-inverse:var(--cream-100);
+
+  --text-primary:var(--cream-100);
+  --text-secondary:var(--cream-300);
+  --text-muted:var(--cream-500);
+  --text-inverse:var(--ink-900);
+  --text-accent:var(--amber-400);
+
+  --border-subtle:var(--ink-600);
+  --border-default:var(--ink-500);
+  --border-strong:var(--cream-600);
+  --border-accent:var(--amber-500);
+
+  --accent-focus:var(--amber-400);
+  --accent-focus-deep:var(--amber-600);
+  --accent-break-short:var(--sage-400);
+  --accent-break-long:var(--clay-400);
+
+  --state-success:var(--sage-400);
+  --state-warning:var(--amber-400);
+  --state-danger:var(--clay-400);
+  --state-info:var(--haze-400);
+
+  --focus-ring:var(--amber-300);
+  --shadow-color:#000000;
+  --scanline:rgba(243,236,224,.04);
+}
+
+/* ── Light theme — "Daylight". Same hues, inverted stack. ─────── */
+[data-theme="light"]{
+  --surface-app:#F6F1E7;
+  --surface-card:#FFFBF2;
+  --surface-raised:#FFFFFF;
+  --surface-sunken:#EBE4D6;
+  --surface-inverse:var(--ink-900);
+
+  --text-primary:var(--ink-800);
+  --text-secondary:var(--cream-600);
+  --text-muted:var(--cream-500);
+  --text-inverse:var(--cream-100);
+  --text-accent:var(--amber-600);
+
+  --border-subtle:#E0D7C6;
+  --border-default:var(--cream-300);
+  --border-strong:var(--ink-800);
+  --border-accent:var(--amber-500);
+
+  --accent-focus:var(--amber-500);
+  --accent-focus-deep:var(--amber-600);
+  --accent-break-short:var(--sage-500);
+  --accent-break-long:var(--clay-500);
+
+  --state-success:var(--sage-500);
+  --state-warning:var(--amber-600);
+  --state-danger:var(--clay-500);
+  --state-info:var(--haze-500);
+
+  --focus-ring:var(--amber-600);
+  --shadow-color:var(--ink-800);
+  --scanline:rgba(16,14,12,.035);
+}
+
+/* Mode scopes — set on any container to retint its accent. */
+[data-mode="focus"]{ --accent-mode:var(--accent-focus) }
+[data-mode="short"]{ --accent-mode:var(--accent-break-short) }
+[data-mode="long"]{ --accent-mode:var(--accent-break-long) }
+:root{ --accent-mode:var(--accent-focus) }
+
+/* ═══ tokens/typography.css ══════════════════════════════════════════ */
+/* ── Type ──────────────────────────────────────────────────────
+   Three families, strictly zoned:
+   pixel  → wordmark, countdown, overlines, buttons. Never body copy.
+   mono   → numbers, metadata, labels, session lists.
+   sans   → sentences. Anything longer than four words. */
+:root{
+  --font-pixel:"Silkscreen",ui-monospace,monospace;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+  --font-sans:"Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+
+  --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700;
+
+  /* Sizes. Pixel type only ever sits on even multiples so the bitmap
+     grid stays crisp: 10, 12, 14, 16, 20, 24, 32, 48, 64, 96, 128. */
+  --text-2xs:10px; --text-xs:12px; --text-sm:14px; --text-md:16px;
+  --text-lg:20px; --text-xl:24px; --text-2xl:32px; --text-3xl:48px;
+  --display-sm:64px; --display-md:96px; --display-lg:128px;
+
+  --leading-tight:1; --leading-snug:1.25; --leading-normal:1.5; --leading-relaxed:1.65;
+
+  /* Pixel faces need air between glyphs; mono labels are tracked out wide. */
+  --tracking-pixel:0.04em; --tracking-overline:0.18em; --tracking-mono:0.02em; --tracking-sans:0em;
+}
+
+/* ── Text roles ──────────────────────────────────────────────── */
+.em-display{font-family:var(--font-pixel);font-weight:var(--weight-bold);font-size:var(--display-md);line-height:var(--leading-tight);letter-spacing:var(--tracking-pixel);color:var(--text-primary)}
+.em-countdown{font-family:var(--font-pixel);font-weight:var(--weight-bold);font-size:var(--display-lg);line-height:var(--leading-tight);letter-spacing:0.02em;font-variant-numeric:tabular-nums;color:var(--text-primary)}
+.em-title{font-family:var(--font-pixel);font-weight:var(--weight-bold);font-size:var(--text-xl);line-height:var(--leading-snug);letter-spacing:var(--tracking-pixel);color:var(--text-primary)}
+.em-subtitle{font-family:var(--font-pixel);font-weight:var(--weight-regular);font-size:var(--text-md);line-height:var(--leading-snug);letter-spacing:var(--tracking-pixel);color:var(--text-primary)}
+.em-overline{font-family:var(--font-pixel);font-weight:var(--weight-regular);font-size:var(--text-2xs);line-height:var(--leading-tight);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--text-muted)}
+.em-body{font-family:var(--font-sans);font-weight:var(--weight-regular);font-size:var(--text-md);line-height:var(--leading-relaxed);letter-spacing:var(--tracking-sans);color:var(--text-secondary);text-wrap:pretty}
+.em-body-sm{font-family:var(--font-sans);font-weight:var(--weight-regular);font-size:var(--text-sm);line-height:var(--leading-normal);color:var(--text-secondary);text-wrap:pretty}
+.em-label{font-family:var(--font-mono);font-weight:var(--weight-medium);font-size:var(--text-xs);line-height:var(--leading-normal);letter-spacing:var(--tracking-mono);color:var(--text-secondary)}
+.em-numeric{font-family:var(--font-mono);font-weight:var(--weight-medium);font-size:var(--text-sm);font-variant-numeric:tabular-nums;letter-spacing:var(--tracking-mono);color:var(--text-primary)}
+
+/* ═══ tokens/spacing.css ══════════════════════════════════════════ */
+/* ── Space ─────────────────────────────────────────────────────
+   4px grid, doubled at the top end. Pixel art tolerates no half-steps:
+   every gap, pad and inset comes from this scale. */
+:root{
+  --space-0:0px; --space-1:2px; --space-2:4px; --space-3:8px; --space-4:12px;
+  --space-5:16px; --space-6:20px; --space-7:24px; --space-8:32px; --space-9:40px;
+  --space-10:48px; --space-11:64px; --space-12:96px; --space-13:128px;
+
+  /* Component insets */
+  --pad-control-sm:6px 10px; --pad-control-md:10px 16px; --pad-control-lg:14px 24px;
+  --pad-card:var(--space-7); --pad-card-tight:var(--space-5); --pad-screen:var(--space-8);
+
+  /* Layout */
+  --width-app:960px;      /* desktop app shell */
+  --width-panel:420px;    /* settings / dialog column */
+  --width-prose:62ch;
+  --height-control-sm:30px; --height-control-md:40px; --height-control-lg:52px;
+  --height-bar:8px;       /* progress bars, always a multiple of 4 */
+  --tap-min:44px;
+}
+
+/* ═══ tokens/edges.css ══════════════════════════════════════════ */
+/* ── Edges: radii, borders, shadows ────────────────────────────
+   The core motif. Corners are square or barely stepped; borders are
+   1–2px and always a real colour; shadows are HARD offsets with zero
+   blur, as if the sprite were lifted one pixel off the board. */
+:root{
+  --radius-none:0px; --radius-xs:2px; --radius-sm:3px; --radius-md:4px; --radius-pill:999px;
+
+  --border-width:1px; --border-width-thick:2px;
+  --border-hairline:1px solid var(--border-subtle);
+  --border-solid:1px solid var(--border-default);
+  --border-pressed:2px solid var(--border-strong);
+
+  /* Hard pixel shadows — no blur, ever. */
+  --shadow-pixel-sm:2px 2px 0 0 var(--shadow-color);
+  --shadow-pixel:4px 4px 0 0 var(--shadow-color);
+  --shadow-pixel-lg:6px 6px 0 0 var(--shadow-color);
+  --shadow-pixel-accent:3px 3px 0 0 var(--accent-mode);
+  /* The one exception: modal scrims get a soft lift so the page recedes. */
+  --shadow-overlay:0 24px 64px -12px rgba(0,0,0,.7);
+  --inset-notch:inset 0 1px 0 0 rgba(243,236,224,.06);
+
+  --scrim:rgba(11,9,8,.72);
+  --blur-scrim:blur(2px); /* @kind other */
+}
+
+/* ═══ tokens/motion.css ══════════════════════════════════════════ */
+/* ── Motion ────────────────────────────────────────────────────
+   Two speeds only. Interface feedback is stepped, so it reads as
+   frames of animation rather than smooth CSS. Ambient/mood motion is
+   long and linear so nothing ever feels urgent. No bounce, no spring. */
+:root{
+  --duration-instant:80ms; /* @kind other */
+  --duration-fast:140ms; /* @kind other */
+  --duration-medium:240ms; /* @kind other */
+  --duration-slow:480ms; /* @kind other */
+  --duration-ambient:1200ms; /* @kind other */
+  --duration-breath:4000ms; /* @kind other */
+
+  --ease-step:steps(3,end); /* @kind other */
+  --ease-step-fine:steps(5,end); /* @kind other */
+  --ease-out:cubic-bezier(.2,.7,.3,1); /* @kind other */
+  --ease-in-out:cubic-bezier(.4,0,.2,1); /* @kind other */
+  --ease-linear:linear; /* @kind other */
+
+  --transition-control:background-color var(--duration-fast) var(--ease-step),color var(--duration-fast) var(--ease-step),border-color var(--duration-fast) var(--ease-step),box-shadow var(--duration-fast) var(--ease-step),transform var(--duration-fast) var(--ease-step); /* @kind other */
+  --transition-surface:background-color var(--duration-medium) var(--ease-in-out),border-color var(--duration-medium) var(--ease-in-out); /* @kind other */
+  --transition-mood:color var(--duration-slow) var(--ease-in-out),background-color var(--duration-slow) var(--ease-in-out); /* @kind other */
+}
+@keyframes em-blink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@keyframes em-breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes em-step-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes em-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  :root{
+    --duration-fast:1ms; /* @kind other */
+    --duration-medium:1ms; /* @kind other */
+    --duration-slow:1ms; /* @kind other */
+    --duration-ambient:1ms; /* @kind other */
+  }
+}
+
+/* ═══ tokens/base.css ══════════════════════════════════════════ */
+/* ── Base layer ────────────────────────────────────────────────
+   Minimal resets plus the two shared background textures. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{margin:0;background:var(--surface-app);color:var(--text-primary);font-family:var(--font-sans);font-size:var(--text-md);line-height:var(--leading-relaxed)}
+::selection{background:var(--accent-focus);color:var(--text-inverse)}
+a{color:var(--text-accent);text-decoration:none;border-bottom:1px solid color-mix(in oklab,var(--text-accent) 40%,transparent);transition:var(--transition-control)}
+a:hover{color:var(--amber-300);border-bottom-color:var(--amber-300)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-radius:var(--radius-xs)}
+img{max-width:100%;display:block;image-rendering:pixelated}
+
+/* Texture 1: 2px dot grid. The board every sprite sits on. */
+.em-grid-bg{background-image:radial-gradient(var(--border-subtle) 1px,transparent 1px);background-size:8px 8px;background-position:-1px -1px}
+/* Texture 2: horizontal scanlines. Used sparingly, on hero/now-playing areas. */
+.em-scanlines{background-image:repeating-linear-gradient(to bottom,var(--scanline) 0 1px,transparent 1px 3px)}
+/* Utility: crisp bitmap scaling for pixel art assets. */
+.em-pixel{image-rendering:pixelated}
+
+/* ═══ next/font wiring ═══════════════════════════════════════════
+   layout.tsx loads the three families with next/font/google and exposes
+   each as a CSS variable. Repoint the three family tokens at them so
+   every component keeps reading --font-pixel / --font-mono / --font-sans
+   and none of them has to know fonts are self-hosted. Fallbacks stay. */
+:root{
+  --font-pixel:var(--font-pixel-src),ui-monospace,monospace;
+  --font-mono:var(--font-mono-src),ui-monospace,SFMono-Regular,monospace;
+  --font-sans:var(--font-sans-src),ui-sans-serif,system-ui,sans-serif;
+}

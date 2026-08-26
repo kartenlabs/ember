@@ -1,0 +1,99 @@
+/* ── Ember palette ─────────────────────────────────────────────
+   Warm dusk. A near-black that still reads warm, cream-not-white text,
+   and three low-chroma accents that map 1:1 to the three timer modes. */
+:root{
+  /* Ink — warm near-blacks, app chrome */
+  --ink-900:#100E0C; --ink-800:#17130F; --ink-700:#1F1A15; --ink-600:#282118;
+  --ink-500:#332B22; --ink-400:#463C31;
+
+  /* Cream — text and light surfaces */
+  --cream-100:#F3ECE0; --cream-200:#E4DACA; --cream-300:#CFC3B0; --cream-400:#A99C89;
+  --cream-500:#7E7263; --cream-600:#5A5044;
+
+  /* Amber — focus mode, primary action */
+  --amber-300:#F2C079; --amber-400:#E8A64C; --amber-500:#D98B2C; --amber-600:#B26F1F;
+
+  /* Sage — short break */
+  --sage-300:#A8C4A2; --sage-400:#86A87F; --sage-500:#688B62; --sage-600:#4E6C49;
+
+  /* Clay — long break, destructive */
+  --clay-300:#E09B7E;
+  --clay-400:#C97558; --clay-500:#B45B3E; --clay-600:#8F4530;
+
+  /* Haze — informational, muted lavender-grey */
+  --haze-300:#B3B4CC; --haze-400:#9295B4; --haze-500:#737796;
+}
+
+/* ── Semantic aliases (use these in components) ───────────────── */
+:root{
+  --surface-app:var(--ink-900);
+  --surface-card:var(--ink-800);
+  --surface-raised:var(--ink-700);
+  --surface-sunken:#0B0908;
+  --surface-inverse:var(--cream-100);
+
+  --text-primary:var(--cream-100);
+  --text-secondary:var(--cream-300);
+  --text-muted:var(--cream-500);
+  --text-inverse:var(--ink-900);
+  --text-accent:var(--amber-400);
+
+  --border-subtle:var(--ink-600);
+  --border-default:var(--ink-500);
+  --border-strong:var(--cream-600);
+  --border-accent:var(--amber-500);
+
+  --accent-focus:var(--amber-400);
+  --accent-focus-deep:var(--amber-600);
+  --accent-break-short:var(--sage-400);
+  --accent-break-long:var(--clay-400);
+
+  --state-success:var(--sage-400);
+  --state-warning:var(--amber-400);
+  --state-danger:var(--clay-400);
+  --state-info:var(--haze-400);
+
+  --focus-ring:var(--amber-300);
+  --shadow-color:#000000;
+  --scanline:rgba(243,236,224,.04);
+}
+
+/* ── Light theme — "Daylight". Same hues, inverted stack. ─────── */
+[data-theme="light"]{
+  --surface-app:#F6F1E7;
+  --surface-card:#FFFBF2;
+  --surface-raised:#FFFFFF;
+  --surface-sunken:#EBE4D6;
+  --surface-inverse:var(--ink-900);
+
+  --text-primary:var(--ink-800);
+  --text-secondary:var(--cream-600);
+  --text-muted:var(--cream-500);
+  --text-inverse:var(--cream-100);
+  --text-accent:var(--amber-600);
+
+  --border-subtle:#E0D7C6;
+  --border-default:var(--cream-300);
+  --border-strong:var(--ink-800);
+  --border-accent:var(--amber-500);
+
+  --accent-focus:var(--amber-500);
+  --accent-focus-deep:var(--amber-600);
+  --accent-break-short:var(--sage-500);
+  --accent-break-long:var(--clay-500);
+
+  --state-success:var(--sage-500);
+  --state-warning:var(--amber-600);
+  --state-danger:var(--clay-500);
+  --state-info:var(--haze-500);
+
+  --focus-ring:var(--amber-600);
+  --shadow-color:var(--ink-800);
+  --scanline:rgba(16,14,12,.035);
+}
+
+/* Mode scopes — set on any container to retint its accent. */
+[data-mode="focus"]{ --accent-mode:var(--accent-focus) }
+[data-mode="short"]{ --accent-mode:var(--accent-break-short) }
+[data-mode="long"]{ --accent-mode:var(--accent-break-long) }
+:root{ --accent-mode:var(--accent-focus) }

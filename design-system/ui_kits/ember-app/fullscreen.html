@@ -1,0 +1,29 @@
+<!-- @dsCard group="Ember app" viewport="1280x720" name="Full screen" subtitle="Distraction-free session: station full-bleed, 128px countdown, fading chrome." -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Ember — full screen</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script>window.EMBER_ICON_BASE='../../assets/icons';</script>
+<script src="../../_ds_bundle.js"></script>
+<style>html,body{height:100%}body{margin:0;background:var(--surface-app)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const ns = window.EmberDesignSystem_e9992d;
+const { FullScreenTimer } = ns;
+function Demo() {
+  const [running, setRunning] = React.useState(true);
+  const [seconds, setSeconds] = React.useState(1122);
+  React.useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => setSeconds(s => Math.max(0, s - 1)), 1000);
+    return () => clearInterval(id);
+  }, [running]);
+  return <FullScreenTimer seconds={seconds} running={running} mode="focus" idleFade={false}
+    label="Focus · 3 of 4" completed={2} current={2} sets={4} task="deep work"
+    onToggle={() => setRunning(!running)} onReset={() => setSeconds(1500)} onSkip={() => {}} onExit={() => {}} />;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body></html>
