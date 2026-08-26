@@ -1,0 +1,43 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Forms" subtitle="Input, stepper, select, checkbox, radio, switch, slider." -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Ember — forms</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script>window.EMBER_ICON_BASE='../../assets/icons';</script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:20px;background:var(--surface-app)}.grp{display:flex;flex-direction:column;gap:10px}.lbl{font-family:var(--font-pixel);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}.rw{display:flex;gap:12px;align-items:center;flex-wrap:wrap}</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const {Input,Stepper,Select,Checkbox,Radio,Switch,Slider}=window.EmberDesignSystem_e9992d;
+function Demo(){
+  const [focus,setFocus]=React.useState(25);
+  const [vol,setVol]=React.useState(60);
+  const [on,setOn]=React.useState(true);
+  const [auto,setAuto]=React.useState(true);
+  const [chime,setChime]=React.useState('bell');
+  return <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:26}}>
+    <div className="grp" style={{gap:18}}>
+      <Input label="Session name" placeholder="Untitled" hint="Shows in your log."/>
+      <Input label="Focus length" value="25" suffix="min" onChange={()=>{}}/>
+      <Input label="Session name" value="!!" error="Use letters or numbers." onChange={()=>{}}/>
+      <Select label="Chime pack" options={[{value:'a',label:'Temple bells'},{value:'b',label:'Wood block'},{value:'c',label:'Soft marimba'}]}/>
+    </div>
+    <div className="grp" style={{gap:18}}>
+      <div className="rw" style={{gap:20}}>
+        <Stepper label="Focus" value={focus} step={5} min={5} max={90} unit="min" onChange={setFocus}/>
+        <Stepper label="Sets" value={4} min={1} max={8} onChange={()=>{}}/>
+      </div>
+      <Slider label="Chime volume" value={vol} valueLabel={vol+'%'} onChange={e=>setVol(+e.target.value)}/>
+      <Switch label="Chime at the end" description="Plays your chosen sound." checked={on} onChange={()=>setOn(!on)}/>
+      <Checkbox label="Auto-start breaks" description="Rolls into the break without asking." checked={auto} onChange={()=>setAuto(!auto)}/>
+      <div className="grp" style={{gap:8}}>
+        <span className="lbl">Repeat</span>
+        <Radio name="r" label="Until I stop" checked={chime==='bell'} onChange={()=>setChime('bell')}/>
+        <Radio name="r" label="Four sessions, then rest" checked={chime==='wood'} onChange={()=>setChime('wood')}/>
+      </div>
+    </div>
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

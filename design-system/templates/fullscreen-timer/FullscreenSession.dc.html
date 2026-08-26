@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Full screen session" description="Distraction-free Ember session: the station full-bleed behind a scrim, 128px countdown, chrome that fades when idle." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>html,body{height:100%}body{margin:0;background:var(--surface-app);font-family:var(--font-sans)}</style>
+</helmet>
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.FullScreenTimer" seconds="{{ secondsLeft }}" running="{{ running }}" mode="{{ mode }}" label="{{ label }}" completed="{{ sessionsDone }}" current="{{ current }}" sets="{{ sets }}" task="{{ task }}" track="{{ track }}" show-video="{{ showVideo }}" dim="{{ dim }}" started="{{ started }}" hint-size="100vw,100vh"></x-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:720},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;focus&quot;,&quot;short&quot;,&quot;long&quot;],&quot;default&quot;:&quot;focus&quot;,&quot;tsType&quot;:&quot;'focus' | 'short' | 'long'&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;minutes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:25,&quot;min&quot;:5,&quot;max&quot;:90,&quot;unit&quot;:&quot;min&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;elapsedMinutes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:0,&quot;max&quot;:90,&quot;unit&quot;:&quot;min&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;running&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;sets&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:2,&quot;max&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;sessionsDone&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;showVideo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Station&quot;},&quot;dim&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:72,&quot;min&quot;:40,&quot;max&quot;:95,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Station&quot;},&quot;task&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;deep work&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;track&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;music for thinking and building&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const mode = p.mode || 'focus';
+    const minutes = p.minutes ?? 25;
+    const elapsed = p.elapsedMinutes ?? 6;
+    const sets = p.sets ?? 4;
+    const done = p.sessionsDone ?? 2;
+    const running = p.running ?? true;
+    const MODE = { focus: 'Focus', short: 'Short break', long: 'Long break' };
+    return {
+      mode, sets, running,
+      sessionsDone: done,
+      current: running ? done : -1,
+      secondsLeft: Math.max(0, minutes - elapsed) * 60,
+      label: `${MODE[mode]} · ${Math.min(done + 1, sets)} of ${sets}`,
+      task: p.task || 'deep work',
+      track: p.track || 'music for thinking and building',
+      started: elapsed > 0,
+      showVideo: p.showVideo ?? true,
+      dim: p.dim ?? 72,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

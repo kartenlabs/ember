@@ -1,0 +1,20 @@
+/* ── Space ─────────────────────────────────────────────────────
+   4px grid, doubled at the top end. Pixel art tolerates no half-steps:
+   every gap, pad and inset comes from this scale. */
+:root{
+  --space-0:0px; --space-1:2px; --space-2:4px; --space-3:8px; --space-4:12px;
+  --space-5:16px; --space-6:20px; --space-7:24px; --space-8:32px; --space-9:40px;
+  --space-10:48px; --space-11:64px; --space-12:96px; --space-13:128px;
+
+  /* Component insets */
+  --pad-control-sm:6px 10px; --pad-control-md:10px 16px; --pad-control-lg:14px 24px;
+  --pad-card:var(--space-7); --pad-card-tight:var(--space-5); --pad-screen:var(--space-8);
+
+  /* Layout */
+  --width-app:960px;      /* desktop app shell */
+  --width-panel:420px;    /* settings / dialog column */
+  --width-prose:62ch;
+  --height-control-sm:30px; --height-control-md:40px; --height-control-lg:52px;
+  --height-bar:8px;       /* progress bars, always a multiple of 4 */
+  --tap-min:44px;
+}

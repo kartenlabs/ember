@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Focus timer" description="Ember's timer screen: mode switch, pixel countdown, transport, progress and the ambient radio strip." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{margin:0;background:var(--surface-app)}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;justify-content:center;padding:32px 20px 48px;background:var(--surface-app);font-family:var(--font-sans)" data-mode="{{ mode }}">
+<div style="width:100%;max-width:960px;border:1px solid var(--border-subtle);border-radius:3px;background:var(--surface-app);background-image:radial-gradient(var(--border-subtle) 1px,transparent 1px);background-size:8px 8px;box-shadow:6px 6px 0 0 #000">
+<header style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 20px;border-bottom:1px solid var(--border-subtle);background:var(--surface-card)">
+<div style="display:flex;align-items:baseline;gap:12px">
+<span style="font-family:var(--font-pixel);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--text-primary)">ember</span>
+<span style="font-family:var(--font-pixel);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted)">a quiet timer</span>
+</div>
+<span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)">{{ clock }}</span>
+</header>
+<main style="padding:32px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.Tabs" variant="segmented" value="{{ mode }}" items="{{ modeItems }}" hint-size="260px,36px"></x-import>
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.SessionDots" total="{{ sets }}" completed="{{ sessionsDone }}" current="{{ sessionsDone }}" hint-size="140px,16px"></x-import>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:40px 0 32px">
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.TimerDisplay" seconds="{{ secondsLeft }}" running="{{ running }}" mode="{{ mode }}" label="{{ label }}" size="lg" hint-size="360px,140px"></x-import>
+<div style="display:flex;align-items:center;gap:16px">
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.IconButton" icon="reload" label="Reset" hint-size="40px,40px"></x-import>
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.Button" size="lg" icon="{{ transportIcon }}" style="min-width:176px" hint-size="176px,52px">{{ transportLabel }}</x-import>
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.IconButton" icon="chevron-right" label="Skip" hint-size="40px,40px"></x-import>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.Tag" hint-size="90px,24px">{{ task }}</x-import>
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.Badge" tone="{{ mode }}" solid="{{ running }}" hint-size="70px,20px">{{ runningLabel }}</x-import>
+</div>
+</div>
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.ProgressBar" value="{{ pct }}" cells="{{ 48 }}" hint-size="100%,8px"></x-import>
+<sc-if value="{{ showRadio }}" hint-placeholder-val="{{ true }}">
+<x-import component-from-global-scope="EmberDesignSystem_e9992d.RadioPlayer" track="{{ track }}" layout="strip" hint-size="100%,72px"></x-import>
+</sc-if>
+</main>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1040,&quot;height&quot;:720},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;focus&quot;,&quot;short&quot;,&quot;long&quot;],&quot;default&quot;:&quot;focus&quot;,&quot;tsType&quot;:&quot;'focus' | 'short' | 'long'&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;minutes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:25,&quot;min&quot;:5,&quot;max&quot;:90,&quot;unit&quot;:&quot;min&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;elapsedMinutes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:0,&quot;max&quot;:90,&quot;unit&quot;:&quot;min&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;running&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;sets&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:2,&quot;max&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;sessionsDone&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;task&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;deep work&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;track&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;rain on the window — side b&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;showRadio&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const mode = p.mode || 'focus';
+    const minutes = p.minutes ?? 25;
+    const elapsed = p.elapsedMinutes ?? 6;
+    const sets = p.sets ?? 4;
+    const done = p.sessionsDone ?? 2;
+    const running = p.running ?? true;
+    const left = Math.max(0, minutes - elapsed);
+    const MODE = { focus: 'Focus', short: 'Short break', long: 'Long break' };
+    return {
+      mode, sets, running,
+      sessionsDone: done,
+      task: p.task || 'deep work',
+      track: p.track || 'music for thinking and building',
+      showRadio: p.showRadio ?? true,
+      secondsLeft: left * 60,
+      pct: minutes ? (elapsed / minutes) * 100 : 0,
+      label: `${MODE[mode]} · ${Math.min(done + 1, sets)} of ${sets}`,
+      runningLabel: running ? 'Running' : 'Paused',
+      transportIcon: running ? 'pause' : 'play',
+      transportLabel: running ? 'Pause' : 'Start',
+      clock: `${String(left).padStart(2, '0')} min left`,
+      modeItems: [
+        { value: 'focus', label: 'Focus', icon: 'hourglass' },
+        { value: 'short', label: 'Short', icon: 'coffee' },
+        { value: 'long', label: 'Long', icon: 'leaf' },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

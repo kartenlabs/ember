@@ -1,0 +1,34 @@
+/* ── Motion ────────────────────────────────────────────────────
+   Two speeds only. Interface feedback is stepped, so it reads as
+   frames of animation rather than smooth CSS. Ambient/mood motion is
+   long and linear so nothing ever feels urgent. No bounce, no spring. */
+:root{
+  --duration-instant:80ms; /* @kind other */
+  --duration-fast:140ms; /* @kind other */
+  --duration-medium:240ms; /* @kind other */
+  --duration-slow:480ms; /* @kind other */
+  --duration-ambient:1200ms; /* @kind other */
+  --duration-breath:4000ms; /* @kind other */
+
+  --ease-step:steps(3,end); /* @kind other */
+  --ease-step-fine:steps(5,end); /* @kind other */
+  --ease-out:cubic-bezier(.2,.7,.3,1); /* @kind other */
+  --ease-in-out:cubic-bezier(.4,0,.2,1); /* @kind other */
+  --ease-linear:linear; /* @kind other */
+
+  --transition-control:background-color var(--duration-fast) var(--ease-step),color var(--duration-fast) var(--ease-step),border-color var(--duration-fast) var(--ease-step),box-shadow var(--duration-fast) var(--ease-step),transform var(--duration-fast) var(--ease-step); /* @kind other */
+  --transition-surface:background-color var(--duration-medium) var(--ease-in-out),border-color var(--duration-medium) var(--ease-in-out); /* @kind other */
+  --transition-mood:color var(--duration-slow) var(--ease-in-out),background-color var(--duration-slow) var(--ease-in-out); /* @kind other */
+}
+@keyframes em-blink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+@keyframes em-breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes em-step-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes em-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  :root{
+    --duration-fast:1ms; /* @kind other */
+    --duration-medium:1ms; /* @kind other */
+    --duration-slow:1ms; /* @kind other */
+    --duration-ambient:1ms; /* @kind other */
+  }
+}

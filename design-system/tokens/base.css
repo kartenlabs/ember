@@ -1,0 +1,17 @@
+/* ── Base layer ────────────────────────────────────────────────
+   Minimal resets plus the two shared background textures. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{margin:0;background:var(--surface-app);color:var(--text-primary);font-family:var(--font-sans);font-size:var(--text-md);line-height:var(--leading-relaxed)}
+::selection{background:var(--accent-focus);color:var(--text-inverse)}
+a{color:var(--text-accent);text-decoration:none;border-bottom:1px solid color-mix(in oklab,var(--text-accent) 40%,transparent);transition:var(--transition-control)}
+a:hover{color:var(--amber-300);border-bottom-color:var(--amber-300)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-radius:var(--radius-xs)}
+img{max-width:100%;display:block;image-rendering:pixelated}
+
+/* Texture 1: 2px dot grid. The board every sprite sits on. */
+.em-grid-bg{background-image:radial-gradient(var(--border-subtle) 1px,transparent 1px);background-size:8px 8px;background-position:-1px -1px}
+/* Texture 2: horizontal scanlines. Used sparingly, on hero/now-playing areas. */
+.em-scanlines{background-image:repeating-linear-gradient(to bottom,var(--scanline) 0 1px,transparent 1px 3px)}
+/* Utility: crisp bitmap scaling for pixel art assets. */
+.em-pixel{image-rendering:pixelated}

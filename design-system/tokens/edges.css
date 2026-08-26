@@ -1,0 +1,24 @@
+/* ── Edges: radii, borders, shadows ────────────────────────────
+   The core motif. Corners are square or barely stepped; borders are
+   1–2px and always a real colour; shadows are HARD offsets with zero
+   blur, as if the sprite were lifted one pixel off the board. */
+:root{
+  --radius-none:0px; --radius-xs:2px; --radius-sm:3px; --radius-md:4px; --radius-pill:999px;
+
+  --border-width:1px; --border-width-thick:2px;
+  --border-hairline:1px solid var(--border-subtle);
+  --border-solid:1px solid var(--border-default);
+  --border-pressed:2px solid var(--border-strong);
+
+  /* Hard pixel shadows — no blur, ever. */
+  --shadow-pixel-sm:2px 2px 0 0 var(--shadow-color);
+  --shadow-pixel:4px 4px 0 0 var(--shadow-color);
+  --shadow-pixel-lg:6px 6px 0 0 var(--shadow-color);
+  --shadow-pixel-accent:3px 3px 0 0 var(--accent-mode);
+  /* The one exception: modal scrims get a soft lift so the page recedes. */
+  --shadow-overlay:0 24px 64px -12px rgba(0,0,0,.7);
+  --inset-notch:inset 0 1px 0 0 rgba(243,236,224,.06);
+
+  --scrim:rgba(11,9,8,.72);
+  --blur-scrim:blur(2px); /* @kind other */
+}
