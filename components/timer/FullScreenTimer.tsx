@@ -57,6 +57,7 @@ export function FullScreenTimer({
   onToggle, onReset, onSkip, onExit, style, ...rest
 }: FullScreenTimerProps) {
   const frameRef = React.useRef<HTMLIFrameElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const [muted, setMuted] = React.useState(true);
   const [idle, setIdle] = React.useState(false);
 
@@ -68,21 +69,37 @@ export function FullScreenTimer({
       clearTimeout(t);
       t = setTimeout(() => setIdle(true), 4000);
     };
-    window.addEventListener('mousemove', wake);
+    window.addEventListener('pointermove', wake);
+    window.addEventListener('pointerdown', wake);
     window.addEventListener('keydown', wake);
-    return () => { clearTimeout(t); window.removeEventListener('mousemove', wake); window.removeEventListener('keydown', wake); };
+    return () => { clearTimeout(t); window.removeEventListener('pointermove', wake); window.removeEventListener('pointerdown', wake); window.removeEventListener('keydown', wake); };
   }, [idleFade]);
 
   React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && onExit) onExit(); };
+    const previous = document.activeElement as HTMLElement | null;
+    containerRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (document.querySelector('dialog[open]')) return;
+      if (e.key === 'Escape' && onExit) onExit();
+      if (e.key !== 'Tab') return;
+      const buttons = containerRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)');
+      if (!buttons?.length) return;
+      const first = buttons[0];
+      const last = buttons[buttons.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === containerRef.current)) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => { window.removeEventListener('keydown', onKey); previous?.focus(); };
   }, [onExit]);
 
   const send = (func: string) => {
     const el = frameRef.current;
     if (!el || !el.contentWindow) return;
-    el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+    el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), 'https://www.youtube-nocookie.com');
   };
   const toggleMute = () => { send(muted ? 'unMute' : 'mute'); setMuted(!muted); };
 
@@ -97,8 +114,10 @@ export function FullScreenTimer({
   return (
     <div
       data-mode={mode}
+      ref={containerRef} tabIndex={-1} role="region" aria-label="Fullscreen timer"
+      className="em-fullscreen"
       style={{
-        position: 'fixed', inset: 0, zIndex: 90, overflow: 'hidden',
+        position: 'fixed', inset: 0, zIndex: 90, overflow: 'auto',
         background: 'var(--surface-app)',
         display: 'flex', flexDirection: 'column',
         ...style,

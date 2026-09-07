@@ -20,7 +20,7 @@ export function TimerDisplay({
   seconds = 0, running = false, mode = 'focus', label,
   size = 'lg', style, ...rest
 }: TimerDisplayProps) {
-  const fontSize = { sm: 'var(--text-3xl)', md: 'var(--display-sm)', lg: 'var(--display-md)', xl: 'var(--display-lg)' }[size] || 'var(--display-md)';
+  const fontSize = { sm: 'var(--text-3xl)', md: 'var(--display-sm)', lg: 'min(var(--display-md), 16vw)', xl: 'min(var(--display-lg), 18vw)' }[size] || 'var(--display-md)';
   const mm = pad(seconds / 60);
   const ss = pad(seconds % 60);
   const accent = { focus: 'var(--accent-focus)', short: 'var(--accent-break-short)', long: 'var(--accent-break-long)' }[mode] || 'var(--accent-focus)';

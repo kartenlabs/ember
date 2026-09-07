@@ -11,12 +11,26 @@ timer mode.
 ```
 npm install
 npm run dev      # http://localhost:3000
-npm test         # the state machine and the clock format
+npm test         # timer rules, saved-data validation, and calendar boundaries
+npm run lint
 npm run build
 ```
 
 No account, no server, no database. Settings and the session log live in
 `localStorage`.
+
+Browser regression checks run against a production build:
+
+```
+npx playwright install chromium  # once
+npm run test:e2e
+```
+
+These cover timer recovery, settings edits during a block, auto-start, keyboard
+controls, fullscreen handoffs, local midnight, and mobile layouts. YouTube is
+blocked during the tests; live station playback still needs a manual check.
+To use an existing Chromium installation, set
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path.
 
 ## The three views
 
@@ -51,6 +65,17 @@ stores `endsAt` as an epoch timestamp and every tick simply subtracts it from
 `Date.now()`. That is the only reason the timer survives a backgrounded tab —
 browsers throttle timers in hidden tabs hard — a reload, or a sleeping laptop.
 Do not replace it with a decrementing counter.
+
+A started block keeps its original duration, label, and start time when settings
+change. Pausing and reloading preserve that snapshot. If the deadline passes
+while the app is closed, reopening logs the completed block once without an
+outdated chime. The next-block prompt survives reloads; dismissing it leaves
+the next block ready to start.
+
+The log groups sessions by their local start date, follows calendar days across
+daylight-saving changes, and refreshes at midnight. Stored settings, sessions,
+and timer snapshots are validated before use; malformed data falls back to
+defaults or is omitted without crashing the app.
 
 **The station is an embed and must stay one.** Ember hosts no music. The player
 stays visible, the audio is never bundled, and the credit line is the video's

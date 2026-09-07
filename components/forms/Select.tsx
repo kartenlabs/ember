@@ -49,7 +49,7 @@ export function Select({ label, value, onChange, options = [], disabled = false,
           {options.map((o) => {
             const v = typeof o === 'string' ? o : o.value;
             const l = typeof o === 'string' ? o : o.label;
-            return <option key={v} value={v} style={{ background: 'var(--ink-800)' }}>{l}</option>;
+            return <option key={v} value={v} style={{ background: 'var(--surface-sunken)' }}>{l}</option>;
           })}
         </select>
         <span style={{ position: 'absolute', right: 10, display: 'flex', color: 'var(--text-muted)', pointerEvents: 'none' }}>

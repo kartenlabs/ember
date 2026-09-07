@@ -16,8 +16,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { completedAfter, durationOf, nextAfter } from './timer';
-import { loadTimer, saveTimer } from './storage';
-import type { Mode, Settings } from './types';
+import { loadSettings, loadTimer, saveTimer, type TimerState } from './storage';
+import type { Mode, Session, Settings } from './types';
 
 /** Ticks well under a second so the display never sits on a stale value.
  *  Each tick is one subtraction, not a wakeup — this is not a busy loop. */
@@ -29,11 +29,13 @@ const TICK_MS = 200;
 export interface Handoff {
   finished: Mode;
   next: Mode;
+  minutes: number;
 }
 
 export interface TimerApi {
   mode: Mode;
   secondsLeft: number;
+  total: number;
   running: boolean;
   /** False until this block has actually run, so the CTA reads START, not
    *  RESUME. The full-screen view gets this wrong the moment you fake it. */
@@ -52,7 +54,7 @@ export interface TimerApi {
 
 export function useTimer(
   settings: Settings,
-  onComplete: (mode: Mode, minutes: number) => void,
+  onComplete: (session: Omit<Session, 'id'>, silent: boolean) => void,
   onFirstStart?: () => void,
 ): TimerApi {
   const [mode, setMode] = useState<Mode>('focus');
@@ -62,6 +64,8 @@ export function useTimer(
   const [held, setHeld] = useState(() => durationOf('focus', settings));
   const [started, setStarted] = useState(false);
   const [done, setDone] = useState<Handoff | null>(null);
+  const [block, setBlock] = useState<TimerState['block']>();
+  const recovered = useRef(false);
   /** Only meaningful while running; the wall clock writes it on every tick. */
   const [ticked, setTicked] = useState(held);
 
@@ -78,9 +82,9 @@ export function useTimer(
   // tears down mid-block because a parent happened to re-render. Written in an
   // effect, not during render: a ref mutated mid-render is not safe under
   // concurrent rendering, and effects flush long before any tick fires.
-  const latest = useRef({ settings, onComplete, mode, completed });
+  const latest = useRef({ settings, onComplete, mode, completed, block });
   useEffect(() => {
-    latest.current = { settings, onComplete, mode, completed };
+    latest.current = { settings, onComplete, mode, completed, block };
   });
 
   /* ── Restore ────────────────────────────────────────────────────
@@ -101,16 +105,19 @@ export function useTimer(
     if (!saved) return;
     setMode(saved.mode);
     setCompleted(saved.completed);
-    if (saved.endsAt && saved.endsAt > Date.now()) {
-      // Still running, and the wall clock says exactly how much is left.
+    const storedSettings = loadSettings();
+    setBlock(saved.block ?? (saved.started ? {
+      minutes: storedSettings[saved.mode],
+      startedAt: (saved.endsAt ?? Date.now()) - storedSettings[saved.mode] * 60_000,
+      task: storedSettings.task,
+    } : undefined));
+    setDone(saved.done ?? null);
+    if (saved.endsAt !== null) {
+      // Expired blocks finish once after hydration, without a stale chime.
+      recovered.current = saved.endsAt <= Date.now();
       setStarted(true);
       setEndsAt(saved.endsAt);
-      setTicked(Math.ceil((saved.endsAt - Date.now()) / 1000));
-    } else if (saved.endsAt) {
-      // It ran out while the app was closed. Arm a fresh block rather than
-      // chiming for something that finished an hour ago.
-      setStarted(false);
-      setHeld(0);
+      setTicked(Math.max(0, Math.ceil((saved.endsAt - Date.now()) / 1000)));
     } else {
       setStarted(saved.started);
       setHeld(saved.held);
@@ -122,8 +129,8 @@ export function useTimer(
      Only the values a reload cannot re-derive. */
   useEffect(() => {
     if (!restored) return;
-    saveTimer({ mode, completed, endsAt, held, started });
-  }, [restored, mode, completed, endsAt, held, started]);
+    saveTimer({ mode, completed, endsAt, held, started, block, done });
+  }, [restored, mode, completed, endsAt, held, started, block, done]);
 
   /* ── Finish ─────────────────────────────────────────────────────
      Re-entrancy guarded: a tick and a visibilitychange can land in the same
@@ -132,14 +139,16 @@ export function useTimer(
   const finish = useCallback(() => {
     if (finishing.current) return;
     finishing.current = true;
-    const { settings: s, onComplete: cb, mode: m, completed: c } = latest.current;
+    const { settings: s, onComplete: cb, mode: m, completed: c, block: snapshot } = latest.current;
+    const session = snapshot ?? { minutes: s[m], startedAt: Date.now() - s[m] * 60_000, task: s.task };
     setEndsAt(null);
     setHeld(0);
     setStarted(false);
     setCompleted(completedAfter(m, c, s.sets));
-    setDone({ finished: m, next: nextAfter(m, c, s.sets) });
-    cb(m, s[m]);
-    finishing.current = false;
+    setDone({ finished: m, next: nextAfter(m, c, s.sets), minutes: session.minutes });
+    cb({ ...session, mode: m }, recovered.current);
+    // Stay latched until the next start: another event can arrive before
+    // React commits the state change and removes the old interval.
   }, []);
 
   /* ── Tick ───────────────────────────────────────────────────────
@@ -161,25 +170,31 @@ export function useTimer(
     };
   }, [endsAt, finish]);
 
-  const start = useCallback((seconds: number) => {
+  const start = useCallback((seconds: number, resume = false) => {
     onFirstStart?.();
+    finishing.current = false;
+    recovered.current = false;
+    if (!resume) setBlock({ minutes: seconds / 60, startedAt: Date.now(), task: latest.current.settings.task });
+    setTicked(seconds);
     setEndsAt(Date.now() + seconds * 1000);
     setStarted(true);
   }, [onFirstStart]);
 
   const toggle = useCallback(() => {
+    if (done) return;
     if (endsAt === null) {
       const left = secondsLeft > 0 ? secondsLeft : durationOf(mode, latest.current.settings);
-      start(left);
+      start(left, started);
     } else {
       // Pause: freeze what the clock says right now, then drop the deadline.
       // `started` stays true, so the derivation holds this value rather than
       // snapping back to the full length.
       const left = Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
+      if (left === 0) { finish(); return; }
       setHeld(left);
       setEndsAt(null);
     }
-  }, [endsAt, secondsLeft, mode, start]);
+  }, [done, endsAt, secondsLeft, mode, start, started, finish]);
 
   /* Back to a fresh block. `held` is irrelevant once started is false — the
      derivation above takes over and reads the current mode's length. */
@@ -188,6 +203,7 @@ export function useTimer(
     setStarted(false);
     setDone(null);
     setHeld(0);
+    setBlock(undefined);
   }, []);
 
   const reset = useCallback(() => armIdle(), [armIdle]);
@@ -202,6 +218,7 @@ export function useTimer(
   const skip = useCallback(() => {
     const { settings: s, completed: c } = latest.current;
     const next = nextAfter(mode, c, s.sets);
+    if (mode === 'long') setCompleted(0);
     setMode(next);
     armIdle();
   }, [mode, armIdle]);
@@ -215,7 +232,11 @@ export function useTimer(
     start(durationOf(next, latest.current.settings));
   }, [done, start]);
 
-  const dismissDone = useCallback(() => setDone(null), []);
+  const dismissDone = useCallback(() => {
+    if (!done) return;
+    setMode(done.next);
+    armIdle();
+  }, [done, armIdle]);
 
   /* ── Auto-start ─────────────────────────────────────────────────
      Rolls into the next block without the dialog, when the user asked it to. */
@@ -228,7 +249,8 @@ export function useTimer(
   }, [done, settings.autoBreak, settings.autoFocus, acceptNext]);
 
   return {
-    mode, secondsLeft, running, started, completed, done,
+    mode, secondsLeft, running, started, completed: Math.min(completed, settings.sets), done,
+    total: block && (started || done) ? block.minutes * 60 : durationOf(mode, settings),
     toggle, reset, skip, chooseMode, acceptNext, dismissDone,
   };
 }

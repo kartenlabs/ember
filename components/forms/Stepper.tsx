@@ -34,7 +34,7 @@ export function Stepper({
         }}>{label}</span>
       )}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-        <IconButton icon="minus" label="Decrease" size="sm" onClick={() => set(value - step)} disabled={disabled || value <= min} />
+        <IconButton icon="minus" label={label ? `Decrease ${label}` : 'Decrease'} size="sm" onClick={() => set(value - step)} disabled={disabled || value <= min} />
         <div style={{
           display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 4,
           minWidth: 84, height: 'var(--height-control-sm)', padding: '0 8px',
@@ -51,7 +51,7 @@ export function Stepper({
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{unit}</span>
           )}
         </div>
-        <IconButton icon="plus" label="Increase" size="sm" onClick={() => set(value + step)} disabled={disabled || value >= max} />
+        <IconButton icon="plus" label={label ? `Increase ${label}` : 'Increase'} size="sm" onClick={() => set(value + step)} disabled={disabled || value >= max} />
       </div>
     </div>
   );

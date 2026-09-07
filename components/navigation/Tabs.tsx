@@ -20,7 +20,8 @@ export function Tabs({ items = [], value, onChange, variant = 'segmented', fullW
   const segmented = variant === 'segmented';
   return (
     <div
-      role="tablist"
+      role="group"
+      aria-label={variant === 'segmented' ? 'Timer mode' : 'Views'}
       style={{
         display: 'inline-flex', gap: segmented ? 0 : 'var(--space-6)',
         width: fullWidth ? '100%' : undefined,
@@ -40,7 +41,7 @@ export function Tabs({ items = [], value, onChange, variant = 'segmented', fullW
         const on = v === value;
         return (
           <button
-            key={v} role="tab" aria-selected={on} type="button"
+            key={v} aria-pressed={on} type="button"
             onClick={() => onChange && onChange(v)}
             style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',

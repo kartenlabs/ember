@@ -7,57 +7,31 @@
    made of cells is three lines of JSX and matches the pixel grid exactly,
    which is more than any library would give us. */
 
-import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useMemo } from 'react';
 import { Badge } from '@/components/core/Badge';
 import { Card } from '@/components/core/Card';
 import { Tag } from '@/components/core/Tag';
 import { useEmber } from '@/app/providers';
 import { formatTime } from '@/lib/timer';
-import type { Mode, Session } from '@/lib/types';
+import type { Mode } from '@/lib/types';
+import { dayStart, week, streak } from '@/lib/calendar';
+import { useToday } from '@/lib/useToday';
 
-const DAY_MS = 86_400_000;
-const DAY_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-
-function dayStart(t: number): number {
-  const d = new Date(t);
-  d.setHours(0, 0, 0, 0);
-  return d.getTime();
-}
-
-/** Sessions per day for the seven days ending today, oldest first. */
-function week(sessions: Session[], today: number) {
-  return Array.from({ length: 7 }, (_, i) => {
-    const start = today - (6 - i) * DAY_MS;
-    const rows = sessions.filter((s) => dayStart(s.startedAt) === start);
-    return { start, label: DAY_NAMES[new Date(start).getDay()], count: rows.length };
-  });
-}
-
-/** Consecutive days ending today (or yesterday) with at least one session. */
-function streak(sessions: Session[], today: number): number {
-  if (sessions.length === 0) return 0;
-  const days = new Set(sessions.map((s) => dayStart(s.startedAt)));
-  // Today not being logged yet should not wipe a run, so start from whichever
-  // of today or yesterday actually has something in it.
-  let cursor = days.has(today) ? today : today - DAY_MS;
-  let n = 0;
-  while (days.has(cursor)) { n += 1; cursor -= DAY_MS; }
-  return n;
-}
+const EMPTY_WEEK = Array.from({ length: 7 }, (_, start) => ({ start, label: '—', count: 0 }));
 
 function Bars({ data }: { data: ReturnType<typeof week> }) {
   // The scale grows with the data but never shrinks below a normal day, so a
   // single session does not render as a full column.
   const max = Math.max(8, ...data.map((d) => d.count));
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--space-4)', height: 132 }}>
+    <div role="img" aria-label={data.map((day) => `${day.label}: ${day.count} sessions`).join(', ')} style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--space-4)', height: 132 }}>
       {data.map((x) => (
         <div key={x.start} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-3)' }}>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 2, height: 100, width: '100%' }}>
-            {Array.from({ length: max }).map((_, i) => (
+            {Array.from({ length: 16 }).map((_, i) => (
               <span key={i} style={{
                 flex: 1, minHeight: 2,
-                background: (max - i) <= x.count ? 'var(--accent-focus)' : 'var(--surface-sunken)',
+                background: (16 - i) <= Math.ceil(x.count / max * 16) ? 'var(--accent-focus)' : 'var(--surface-sunken)',
               }} />
             ))}
           </div>
@@ -90,23 +64,15 @@ function plural(n: number, word: string): string {
 export function LogScreen() {
   const { sessions } = useEmber();
 
-  /* Which day it is now is not something render may ask directly — the clock
-     is not a pure input, and the server has no business guessing it. This is
-     the sanctioned way to read one: a client snapshot, a server snapshot of 0,
-     and no subscription, because the date does not change mid-session. Before
-     it resolves every filter below matches nothing, which renders the empty
-     state the log would show anyway while its stored rows are still loading. */
-  const today = useSyncExternalStore(
-    useCallback(() => () => {}, []),
-    useCallback(() => dayStart(Date.now()), []),
-    useCallback(() => 0, []),
-  );
+  const today = useToday();
 
   const view = useMemo(() => {
     const todays = sessions
       .filter((s) => dayStart(s.startedAt) === today)
       .sort((a, b) => a.startedAt - b.startedAt);
-    const data = week(sessions, today);
+    // The server cannot know the browser's timezone. Keep the hydration
+    // placeholder independent of either timezone until today's date loads.
+    const data = today === 0 ? EMPTY_WEEK : week(sessions, today);
     const best = data.reduce((a, b) => (b.count > a.count ? b : a), data[0]);
     return {
       todays,
@@ -120,7 +86,7 @@ export function LogScreen() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-7)' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-5)' }}>
+      <div className="em-stats-grid" style={{ display: 'grid', gap: 'var(--space-5)' }}>
         <Stat label="Today" value={view.todays.length} unit={plural(view.todays.length, 'session')} />
         <Stat label="Focused" value={view.focusedMinutes} unit="min" />
         <Stat label="Streak" value={view.streak} unit={plural(view.streak, 'day')} />
@@ -138,7 +104,7 @@ export function LogScreen() {
       <Card title="Today" meta={`${view.todays.length} logged`} padding="none">
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {view.todays.map((s, i) => (
-            <div key={s.id} style={{
+            <div key={s.id} className="em-log-row" style={{
               display: 'flex', alignItems: 'center', gap: 'var(--space-5)',
               padding: 'var(--space-4) var(--space-6)',
               borderTop: i === 0 ? 0 : 'var(--border-width) solid var(--border-subtle)',
