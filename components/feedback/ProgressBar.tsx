@@ -32,7 +32,7 @@ export function ProgressBar({ value = 0, cells = 40, label, showValue = false, s
           }}>{Math.round(pct)}%</span>}
         </div>
       )}
-      <div role="progressbar" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100}
+      <div role="progressbar" aria-label={label || 'Session progress'} aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100}
         style={{ display: 'flex', gap: 2, width: '100%' }}>
         {Array.from({ length: cells }).map((_, i) => (
           <span key={i} style={{

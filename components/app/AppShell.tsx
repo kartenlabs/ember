@@ -17,7 +17,7 @@ import { Tooltip } from '@/components/feedback/Tooltip';
 import { Tabs } from '@/components/navigation/Tabs';
 import { FullScreenTimer } from '@/components/timer/FullScreenTimer';
 import { useEmber } from '@/app/providers';
-import { formatTime, overlineFor } from '@/lib/timer';
+import { overlineFor } from '@/lib/timer';
 import { MODE_LABEL, MODE_TEXT } from '@/lib/types';
 
 const VIEWS = [
@@ -28,7 +28,7 @@ const VIEWS = [
 
 /** Sentence case, and never a celebration. */
 const DONE_OVERLINE = { focus: 'Focus complete', short: 'Break over', long: 'Long break over' };
-const DONE_TITLE = { focus: 'Take five?', short: 'Ready to go again?', long: 'Ready to go again?' };
+const DONE_TITLE = { focus: 'Take a break?', short: 'Ready to go again?', long: 'Ready to go again?' };
 const NEXT_LABEL = { focus: 'Start break', short: 'Back to focus', long: 'Back to focus' };
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -46,19 +46,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       data-mode={mode}
+      className="em-shell"
       style={{
         minHeight: '100%', background: 'var(--surface-app)',
-        display: 'flex', justifyContent: 'center', padding: '32px 20px 48px',
+        display: 'flex', justifyContent: 'center',
       }}
     >
-      <div className="em-grid-bg" style={{
+      <div className="em-grid-bg" inert={full} style={{
         width: '100%', maxWidth: 'var(--width-app)',
         border: 'var(--border-width) solid var(--border-subtle)',
         borderRadius: 'var(--radius-sm)',
         background: 'var(--surface-app)',
         boxShadow: 'var(--shadow-pixel-lg)',
       }}>
-        <header style={{
+        <header className="em-header" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           gap: 'var(--space-6)', padding: '14px 20px',
           borderBottom: 'var(--border-width) solid var(--border-subtle)',
@@ -86,7 +87,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Tooltip>
           </div>
         </header>
-        <main style={{ padding: 'var(--space-8)' }}>{children}</main>
+        <main className="em-main">{children}</main>
       </div>
 
       {/* The hand-off. Skipped entirely when auto-start is on. */}
@@ -108,7 +109,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ) : null}
       >
         {done?.finished === 'focus'
-          ? `Session ${Math.min(completed, settings.sets)} of ${settings.sets} logged. ${settings.focus} minutes.`
+          ? `Session ${Math.min(completed, settings.sets)} of ${settings.sets} logged. ${done.minutes} minutes.`
           : 'That break is done. The next focus block is ready when you are.'}
       </Dialog>
 
@@ -133,7 +134,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
 
       {toast && (
-        <div style={{ position: 'fixed', right: 24, bottom: 24, zIndex: 80 }}>
+        <div className="em-toast-position" style={{ position: 'fixed', right: 24, bottom: 24, zIndex: 100 }}>
           <Toast
             tone={toast.tone}
             title={toast.title}
@@ -146,7 +147,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Screen-reader-only running commentary. The countdown itself is a
           role="timer", but a mode change is silent without this. */}
       <span aria-live="polite" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>
-        {`${MODE_TEXT[mode]}, ${formatTime(secondsLeft)} left, ${running ? 'running' : 'paused'}. ${sessions.length} logged.`}
+        {`${MODE_TEXT[mode]}, ${running ? 'running' : 'paused'}. ${sessions.length} logged.`}
       </span>
     </div>
   );

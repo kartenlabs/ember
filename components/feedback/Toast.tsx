@@ -30,7 +30,7 @@ export function Toast({ title, message, tone = 'neutral', icon, action, actionLa
       role="status"
       style={{
         display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)',
-        minWidth: 300, maxWidth: 420, padding: 'var(--space-5)',
+        minWidth: 'min(300px, calc(100vw - 48px))', maxWidth: 'min(420px, calc(100vw - 48px))', padding: 'var(--space-5)',
         background: 'var(--surface-raised)',
         border: 'var(--border-width) solid var(--border-default)',
         borderRadius: 'var(--radius-sm)',

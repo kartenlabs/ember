@@ -37,7 +37,7 @@ export function Slider({
           }}>{valueLabel}</span>}
         </div>
       )}
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', height: 20, opacity: disabled ? 0.4 : 1 }}>
+      <div className="em-slider-track" style={{ position: 'relative', display: 'flex', alignItems: 'center', height: 20, opacity: disabled ? 0.4 : 1 }}>
         <div style={{ display: 'flex', gap: 2, width: '100%', pointerEvents: 'none' }}>
           {Array.from({ length: cells }).map((_, i) => (
             <span key={i} style={{

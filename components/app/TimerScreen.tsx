@@ -32,7 +32,7 @@ export function TimerScreen() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-6)' }}>
+      <div className="em-timer-toolbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-6)' }}>
         <Tabs
           variant="segmented"
           value={mode}
@@ -69,7 +69,7 @@ export function TimerScreen() {
             <IconButton icon="chevron-right" label="Skip" onClick={timer.skip} />
           </Tooltip>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', maxWidth: '100%' }}>
           {settings.task && <Tag>{settings.task}</Tag>}
           <Badge tone={mode} solid={running}>{running ? 'Running' : 'Paused'}</Badge>
         </div>
@@ -77,7 +77,7 @@ export function TimerScreen() {
 
       <ProgressBar value={elapsed} cells={48} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 240px', gap: 'var(--space-5)', alignItems: 'stretch' }}>
+      <div className="em-station-grid" style={{ display: 'grid', gap: 'var(--space-5)', alignItems: 'stretch' }}>
         {/* Unmounted while the full-screen session is up. Two embeds of one
             stream drift apart the moment either is unmuted. */}
         {!full && (

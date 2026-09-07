@@ -48,6 +48,8 @@ export function Input({
         {icon ? <Icon name={icon} size={16} /> : null}
         <input
           id={uid} value={value} onChange={onChange} disabled={disabled}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={hint || error ? `${uid}-description` : undefined}
           onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
           style={{
             flex: 1, minWidth: 0, height: '100%',
@@ -62,7 +64,7 @@ export function Input({
         ) : null}
       </div>
       {(hint || error) && (
-        <span style={{
+        <span id={`${uid}-description`} style={{
           fontFamily: 'var(--font-sans)', fontSize: 'var(--text-xs)', lineHeight: 1.4,
           color: error ? 'var(--state-danger)' : 'var(--text-muted)',
         }}>{error || hint}</span>

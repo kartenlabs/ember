@@ -26,8 +26,8 @@ export function ChimeOption({
     <div
       onClick={onSelect}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-      role="radio" aria-checked={selected} tabIndex={0}
       style={{
+        position: 'relative',
         display: 'flex', alignItems: 'center', gap: 'var(--space-5)',
         padding: 'var(--space-4) var(--space-5)',
         background: selected ? 'var(--surface-raised)' : (hover ? 'var(--surface-raised)' : 'var(--surface-sunken)'),
@@ -38,6 +38,11 @@ export function ChimeOption({
       }}
       {...rest}
     >
+      <input
+        type="radio" name="ember-chime" aria-label={name}
+        checked={selected} onChange={onSelect}
+        style={{ position: 'absolute', opacity: 0, width: 1, height: 1 }}
+      />
       <span style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         width: 18, height: 18, flex: '0 0 auto',
@@ -60,7 +65,7 @@ export function ChimeOption({
         ))}
       </span>
       <IconButton
-        icon={playing ? 'pause' : 'play'} label={playing ? 'Stop preview' : `Preview ${name}`}
+        icon="play" label={playing ? `Playing ${name}` : `Preview ${name}`} disabled={playing}
         size="sm" variant="secondary"
         onClick={(e) => { e.stopPropagation(); onPlay?.(); }}
       />

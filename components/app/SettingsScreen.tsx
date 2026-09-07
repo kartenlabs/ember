@@ -11,13 +11,16 @@ import { ChimeOption } from '@/components/timer/ChimeOption';
 import { useEmber } from '@/app/providers';
 import { CHIMES } from '@/lib/chimes';
 import type { Theme } from '@/lib/types';
+import { dayStart } from '@/lib/calendar';
+import { useToday } from '@/lib/useToday';
 
 export function SettingsScreen() {
   const { settings, setSetting, preview, previewing, clearToday, sessions } = useEmber();
-  const hasToday = sessions.length > 0;
+  const today = useToday();
+  const hasToday = sessions.some((session) => dayStart(session.startedAt) === today);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-6)', alignItems: 'start' }}>
+    <div className="em-settings-grid" style={{ display: 'grid', gap: 'var(--space-6)', alignItems: 'start' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
         <Card title="Lengths" meta="minutes">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>

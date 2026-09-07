@@ -57,6 +57,11 @@ function audio(): AudioContext | null {
   return ctx;
 }
 
+/** Unlock from Start, before the timer's later non-gesture completion. */
+export function unlockAudio(): void {
+  try { audio(); } catch { /* Audio is optional; the timer still runs. */ }
+}
+
 function strike(a: AudioContext, r: Recipe, at: number, vol: number): void {
   r.partials.forEach((f, i) => {
     const o = a.createOscillator();
@@ -75,10 +80,14 @@ function strike(a: AudioContext, r: Recipe, at: number, vol: number): void {
 
 /** Plays a chime. Returns its length in seconds, or 0 if there is no audio. */
 export function playChime(kind: string, volume = 60): number {
-  const a = audio();
-  if (!a || volume <= 0) return 0;
-  const r = RECIPES[kind] ?? RECIPES.bell;
-  const t = a.currentTime + 0.02;
-  for (let i = 0; i < r.strikes; i++) strike(a, r, t + i * r.gap, volume);
-  return r.decay + r.strikes * r.gap;
+  try {
+    const a = audio();
+    if (!a || volume <= 0) return 0;
+    const r = RECIPES[kind] ?? RECIPES.bell;
+    const t = a.currentTime + 0.02;
+    for (let i = 0; i < r.strikes; i++) strike(a, r, t + i * r.gap, volume);
+    return r.decay + r.strikes * r.gap;
+  } catch {
+    return 0;
+  }
 }

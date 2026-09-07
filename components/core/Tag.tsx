@@ -31,6 +31,7 @@ export function Tag({ children, selected = false, onRemove, onClick, style, ...r
         borderRadius: 'var(--radius-xs)',
         cursor: interactive ? 'pointer' : 'default',
         transition: 'var(--transition-control)',
+        maxWidth: '100%', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
         ...style,
       }}
       {...rest}

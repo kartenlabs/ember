@@ -3,7 +3,7 @@
 import React from 'react';
 import { IconButton } from '../core/IconButton';
 
-export interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DialogProps extends Omit<React.DialogHTMLAttributes<HTMLDialogElement>, 'onClose'> {
   open?: boolean;
   /** Sentence case: "Take five?" */
   title?: string;
@@ -19,30 +19,51 @@ export function Dialog({
   open = true, title, overline, children, footer, onClose,
   width = 'var(--width-panel)', style, ...rest
 }: DialogProps) {
-  if (!open) return null;
+  const ref = React.useRef<HTMLDialogElement>(null);
+  React.useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+    return () => { if (dialog.open) dialog.close(); };
+  }, [open]);
   return (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 60,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 'var(--space-8)',
-        background: 'var(--scrim)', backdropFilter: 'var(--blur-scrim)',
+    <dialog
+      ref={ref}
+      aria-label={title}
+      onCancel={(event) => { event.preventDefault(); onClose?.(); }}
+      className="em-dialog"
+      onKeyDown={(event) => {
+        if (event.key !== 'Tab') return;
+        const controls = event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]');
+        if (!controls.length) { event.preventDefault(); return; }
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault(); last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault(); first.focus();
+        }
       }}
-      onClick={onClose}
+      style={{
+        width: 'calc(100% - 32px)', maxWidth: width, maxHeight: 'calc(100dvh - 32px)',
+        padding: 0, color: 'var(--text-primary)',
+        background: 'var(--surface-card)',
+        border: 'var(--border-width-thick) solid var(--border-default)',
+        borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-pixel-lg)',
+        ...style,
+      }}
+      onClick={(event) => {
+        if (event.target !== event.currentTarget) return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) onClose?.();
+      }}
+      {...rest}
     >
       <div
-        role="dialog" aria-modal="true" aria-label={title}
-        onClick={(e) => e.stopPropagation()}
         style={{
-          width: '100%', maxWidth: width,
-          background: 'var(--surface-card)',
-          border: 'var(--border-width-thick) solid var(--border-default)',
-          borderRadius: 'var(--radius-sm)',
-          boxShadow: 'var(--shadow-pixel-lg)',
           animation: 'em-step-in var(--duration-medium) var(--ease-step) both',
-          ...style,
         }}
-        {...rest}
       >
         <header style={{
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
@@ -72,6 +93,6 @@ export function Dialog({
           }}>{footer}</footer>
         )}
       </div>
-    </div>
+    </dialog>
   );
 }

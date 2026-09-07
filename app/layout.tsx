@@ -45,7 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const station = await getStation();
 
   return (
-    <html lang="en" data-theme="dark" className={`${pixel.variable} ${mono.variable} ${sans.variable}`}>
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${pixel.variable} ${mono.variable} ${sans.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH }} />
       </head>

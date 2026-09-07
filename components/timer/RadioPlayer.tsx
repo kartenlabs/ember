@@ -44,7 +44,7 @@ export function RadioPlayer({
   const send = (func: string) => {
     const el = frameRef.current;
     if (!el || !el.contentWindow) return;
-    el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+    el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), 'https://www.youtube-nocookie.com');
   };
   const toggle = () => { send(playing ? 'pauseVideo' : 'playVideo'); setPlaying(!playing); };
   const mute = () => { send(muted ? 'unMute' : 'mute'); setMuted(!muted); };
@@ -78,6 +78,7 @@ export function RadioPlayer({
   return (
     <div
       style={{
+        minWidth: 0,
         display: 'flex', flexDirection: panel ? 'column' : 'row',
         alignItems: panel ? 'stretch' : 'center', gap: 'var(--space-5)',
         padding: 'var(--space-4) var(--space-5)',

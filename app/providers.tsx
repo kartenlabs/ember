@@ -10,16 +10,16 @@
 import React, {
   createContext, useCallback, useContext, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { playChime } from '@/lib/chimes';
+import { playChime, unlockAudio } from '@/lib/chimes';
 import { askToNotify, notify } from '@/lib/notify';
 import {
   loadSessions, loadSettings, saveSessions, saveSettings,
 } from '@/lib/storage';
 import type { Station } from '@/lib/station';
-import { durationOf } from '@/lib/timer';
+import { dayStart, shiftDay } from '@/lib/calendar';
 import { useTimer, type TimerApi } from '@/lib/useTimer';
 import {
-  DEFAULT_SETTINGS, MODE_TEXT, type Mode, type Session, type Settings,
+  DEFAULT_SETTINGS, MODE_TEXT, type Session, type Settings,
 } from '@/lib/types';
 
 export interface ToastState {
@@ -59,12 +59,6 @@ export function useEmber(): EmberContext {
   return ctx;
 }
 
-function startOfToday(): number {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  return d.getTime();
-}
-
 export function EmberProvider(
   { station, children }: { station: Station; children: React.ReactNode },
 ) {
@@ -100,8 +94,9 @@ export function EmberProvider(
   /* Theme lives on <html>, set here and pre-set by the inline script in
      layout.tsx so a stored Daylight preference never flashes night first. */
   useEffect(() => {
+    if (!hydrated) return;
     document.documentElement.dataset.theme = settings.theme;
-  }, [settings.theme]);
+  }, [hydrated, settings.theme]);
 
   const setSetting = useCallback(<K extends keyof Settings>(key: K, value: Settings[K]) => {
     setSettings((s) => ({ ...s, [key]: value }));
@@ -123,25 +118,27 @@ export function EmberProvider(
   const settingsRef = useRef(settings);
   useEffect(() => { settingsRef.current = settings; }, [settings]);
 
-  const onComplete = useCallback((mode: Mode, minutes: number) => {
+  const onComplete = useCallback((session: Omit<Session, 'id'>, silent: boolean) => {
+    const { mode, minutes } = session;
     const s = settingsRef.current;
-    playChime(s.chime, s.volume);
-    notify(`${MODE_TEXT[mode]} complete`, `${minutes} minutes logged.`);
-    setSessions((rows) => [
-      ...rows,
-      { id: `${Date.now()}`, startedAt: Date.now() - minutes * 60_000, mode, minutes, task: s.task },
-    ]);
+    const id = `${mode}:${session.startedAt}`;
+    setSessions((rows) => rows.some((row) => row.id === id) ? rows : [...rows, { ...session, id }]);
+    if (!silent) {
+      playChime(s.chime, s.volume);
+      notify(`${MODE_TEXT[mode]} complete`, `${minutes} minutes logged.`);
+    }
     if (mode === 'focus') {
       setToast({
         tone: 'neutral',
         title: 'Session logged',
-        message: `${minutes} minutes added to today.`,
+        message: `${minutes} minutes added to your log.`,
       });
     }
   }, []);
 
-  const timer = useTimer(settings, onComplete, askToNotify);
-  const total = durationOf(timer.mode, settings);
+  const prepareStart = useCallback(() => { unlockAudio(); askToNotify(); }, []);
+  const timer = useTimer(settings, onComplete, prepareStart);
+  const total = timer.total;
 
   /* ── Full screen ────────────────────────────────────────────────
      requestFullscreen rejects without a user gesture, so both calls swallow.
@@ -169,8 +166,10 @@ export function EmberProvider(
   const { toggle, reset, skip } = timer;
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.repeat || e.isComposing) return;
       const el = e.target as HTMLElement | null;
-      if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return;
+      if (el && (el.isContentEditable || el.closest('input, textarea, select, button, a, [role="radio"], [role="tab"], [role="dialog"]'))) return;
+      if (document.querySelector('dialog[open]')) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.code === 'Space') { e.preventDefault(); toggle(); return; }
       switch (e.key.toLowerCase()) {
@@ -192,16 +191,11 @@ export function EmberProvider(
   }, []);
 
   const clearToday = useCallback(() => {
-    const cutoff = startOfToday();
-    setSessions((rows) => {
-      const kept = rows.filter((r) => r.startedAt < cutoff);
-      const dropped = rows.length - kept.length;
-      setToast({
-        tone: 'neutral',
-        title: 'Today cleared',
-        message: dropped === 1 ? '1 session removed.' : `${dropped} sessions removed.`,
-      });
-      return kept;
+    const cutoff = dayStart(Date.now());
+    const end = shiftDay(cutoff, 1);
+    setSessions((rows) => rows.filter((r) => r.startedAt < cutoff || r.startedAt >= end));
+    setToast({
+      tone: 'neutral', title: 'Today cleared', message: 'Today’s sessions removed.',
     });
   }, []);
 
