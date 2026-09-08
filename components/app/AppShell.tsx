@@ -8,6 +8,7 @@
    default at equal specificity — put the attribute on <html> and the default
    wins the cascade, silently killing every retint. */
 
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/core/Button';
 import { IconButton } from '@/components/core/IconButton';
@@ -19,11 +20,20 @@ import { FullScreenTimer } from '@/components/timer/FullScreenTimer';
 import { useEmber } from '@/app/providers';
 import { overlineFor } from '@/lib/timer';
 import { MODE_LABEL, MODE_TEXT } from '@/lib/types';
+import { SITE, REPO } from '@/lib/site';
 
 const VIEWS = [
   { value: '/', label: 'Timer' },
   { value: '/log', label: 'Log' },
   { value: '/settings', label: 'Settings' },
+];
+
+/* Secondary, and deliberately not in the tab strip above: a timer earns its
+   keep by having one obvious thing on screen. These live in the footer. */
+const INFO = [
+  { href: '/about', label: 'About' },
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/license', label: 'Licence' },
 ];
 
 /** Sentence case, and never a celebration. */
@@ -71,9 +81,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 'var(--text-2xs)', letterSpacing: 'var(--tracking-overline)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>a quiet timer</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}>
+            {/* No fallback to '/': on an info page nothing here is the current
+                view, and lighting up Timer would say otherwise. */}
             <Tabs
               variant="underline"
-              value={VIEWS.find((v) => v.value === pathname)?.value ?? '/'}
+              value={VIEWS.find((v) => v.value === pathname)?.value}
               onChange={(v) => router.push(v)}
               items={VIEWS}
             />
@@ -88,6 +100,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <main className="em-main">{children}</main>
+
+        <footer className="em-footer em-overline" style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: 'var(--space-4) var(--space-6)', padding: '14px 20px',
+          borderTop: 'var(--border-width) solid var(--border-subtle)',
+          background: 'var(--surface-card)',
+        }}>
+          <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4) var(--space-6)' }}>
+            {INFO.map((l) => (
+              <Link key={l.href} href={l.href} aria-current={pathname === l.href ? 'page' : undefined} style={{
+                color: pathname === l.href ? 'var(--text-primary)' : undefined,
+              }}>{l.label}</Link>
+            ))}
+            <a href={REPO.root} target="_blank" rel="noreferrer">GitHub</a>
+          </nav>
+          <span style={{ color: 'var(--text-muted)' }}>
+            A project by{' '}
+            <a href={SITE.companyUrl} target="_blank" rel="noreferrer">{SITE.company}</a>
+          </span>
+        </footer>
       </div>
 
       {/* The hand-off. Skipped entirely when auto-start is on. */}

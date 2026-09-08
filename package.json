@@ -1,6 +1,25 @@
 {
   "name": "ember",
   "version": "0.1.0",
+  "description": "A quiet pomodoro timer with gentle chimes, an optional ambient station, and a session log that never leaves your browser.",
+  "homepage": "https://ember.kartenlabs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kartenlabs/ember.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kartenlabs/ember/issues"
+  },
+  "license": "MIT",
+  "author": "kartenlabs (https://kartenlabs.com)",
+  "keywords": [
+    "pomodoro",
+    "timer",
+    "focus",
+    "productivity",
+    "nextjs"
+  ],
+  "//": "private: this is a deployed app, never an npm package. It guards against an accidental publish and has no bearing on the MIT licence above.",
   "private": true,
   "scripts": {
     "dev": "next dev",

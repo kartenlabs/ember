@@ -290,6 +290,42 @@ input:focus-visible + span, .em-slider-track:has(input:focus-visible) {
 .em-toast-position { max-width: calc(100vw - 48px); }
 .em-toast-position > * { max-width: 100%; }
 .em-log-row { flex-wrap: wrap; }
+
+/* Reading pages: about, privacy, licence, 404. Sans body per the brand guide —
+   pixel type is for the overline and headings and nothing longer. */
+.em-prose { display: flex; flex-direction: column; gap: var(--space-7); }
+/* Sections stack their own blocks, so heading-to-body and body-to-list spacing
+   is one rule rather than a margin on every element that might follow a list. */
+.em-prose section { display: flex; flex-direction: column; gap: var(--space-4); }
+.em-prose p, .em-prose li {
+  font-family: var(--font-sans); font-size: var(--text-md);
+  line-height: var(--leading-relaxed); color: var(--text-secondary);
+  text-wrap: pretty; margin: 0;
+}
+.em-prose ul { margin: 0; padding-left: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+.em-prose li::marker { color: var(--text-muted); }
+.em-prose code {
+  font-family: var(--font-mono); font-size: var(--text-xs);
+  background: var(--surface-sunken); color: var(--text-primary);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-xs); padding: 1px 5px;
+  overflow-wrap: anywhere;
+}
+/* Licence text is the one place a wall of monospace is correct. */
+.em-prose pre {
+  font-family: var(--font-mono); font-size: var(--text-xs);
+  line-height: var(--leading-normal); color: var(--text-secondary);
+  background: var(--surface-sunken); border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-xs); padding: var(--space-5);
+  margin: 0; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+/* Long URLs must not push the card sideways at 320px. */
+.em-prose a { overflow-wrap: anywhere; }
+
+.em-footer { flex-wrap: wrap; }
+.em-footer a { border-bottom-color: transparent; color: var(--text-muted); }
+.em-footer a:hover { color: var(--text-accent); border-bottom-color: transparent; }
+
 @media (max-width: 700px) {
   .em-shell { padding: var(--space-3) var(--space-3) var(--space-7); }
   .em-main { padding: var(--space-5); }

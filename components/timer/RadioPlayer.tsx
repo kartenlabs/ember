@@ -17,6 +17,13 @@ import { IconButton } from '../core/IconButton';
  *   - `station` and `track` are printed as given. They carry the real title
  *     and channel, resolved in lib/station.ts, because the honest credit over
  *     someone else's stream is their name, not one we invented.
+ *
+ * The iframe is mounted on first play rather than on page load. Merely opening
+ * the timer would otherwise hand a visitor's IP and user agent to Google before
+ * they asked for any music, and /privacy promises it does not. This is not the
+ * hiding described above: once mounted the player is the full, visible, ordinary
+ * YouTube player, and nothing is disguised as an audio-only widget. Do not
+ * "restore" the eager iframe — it would make the privacy page a lie.
  */
 
 export const EMBER_STATION_VIDEO = 'tRsQsTMvPNg';
@@ -38,6 +45,8 @@ export function RadioPlayer({
   layout = 'strip', autoplay = false, style, ...rest
 }: RadioPlayerProps) {
   const frameRef = React.useRef<HTMLIFrameElement | null>(null);
+  /* Nothing from YouTube is requested until this turns true. */
+  const [loaded, setLoaded] = React.useState(autoplay);
   const [playing, setPlaying] = React.useState(autoplay);
   const [muted, setMuted] = React.useState(autoplay);
 
@@ -46,10 +55,19 @@ export function RadioPlayer({
     if (!el || !el.contentWindow) return;
     el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), 'https://www.youtube-nocookie.com');
   };
-  const toggle = () => { send(playing ? 'pauseVideo' : 'playVideo'); setPlaying(!playing); };
+  const toggle = () => {
+    // First press mounts the player; the press itself is the gesture that lets
+    // it start unmuted. After that the postMessage API drives it as before.
+    if (!loaded) { setLoaded(true); setPlaying(true); return; }
+    send(playing ? 'pauseVideo' : 'playVideo');
+    setPlaying(!playing);
+  };
   const mute = () => { send(muted ? 'unMute' : 'mute'); setMuted(!muted); };
 
-  const src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1${autoplay ? '&autoplay=1&mute=1' : ''}`;
+  /* The iframe only ever mounts because playback was asked for, so autoplay is
+     always on; muting is only forced on the prop-driven path, which has no
+     user gesture behind it and would otherwise be blocked. */
+  const src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&autoplay=1${autoplay ? '&mute=1' : ''}`;
   const panel = layout === 'panel';
 
   const screen = (
@@ -60,12 +78,27 @@ export function RadioPlayer({
       border: 'var(--border-width) solid var(--border-default)',
       overflow: 'hidden',
     }}>
-      <iframe
-        ref={frameRef} src={src} title={track || station}
-        allow="autoplay; encrypted-media; picture-in-picture"
-        referrerPolicy="strict-origin-when-cross-origin"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
-      />
+      {loaded ? (
+        <iframe
+          ref={frameRef} src={src} title={track || station}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          referrerPolicy="strict-origin-when-cross-origin"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+        />
+      ) : (
+        /* Holds the player's exact footprint so nothing shifts when it mounts,
+           and says plainly what pressing play will load. */
+        <span style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: 'var(--space-2)', textAlign: 'center',
+          fontFamily: 'var(--font-pixel)', fontSize: 'var(--text-2xs)',
+          letterSpacing: 'var(--tracking-overline)', textTransform: 'uppercase',
+          color: 'var(--text-muted)', lineHeight: 'var(--leading-snug)',
+        }}>
+          {panel ? 'Press play to load the YouTube player' : 'Press play'}
+        </span>
+      )}
       {/* Scanline veil ties the video into the board. Pointer-events off so the
           player's own controls still work. */}
       <span aria-hidden="true" style={{

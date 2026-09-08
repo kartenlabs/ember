@@ -111,6 +111,23 @@ test('today controls refresh at local midnight and retain other days', async ({ 
   expect(await sessionCount(page)).toBe(2);
 });
 
+/* The privacy page promises that opening Ember contacts no third party. That is
+   only true while the station iframe stays unmounted until it is asked for, so
+   the promise is asserted here rather than trusted. */
+test('the station contacts YouTube only after play is pressed', async ({ page }) => {
+  const hits: string[] = [];
+  page.on('request', request => {
+    if (request.url().includes('youtube-nocookie.com')) hits.push(request.url());
+  });
+
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Start', exact: true })).toBeVisible();
+  expect(hits, 'nothing should reach YouTube before play is pressed').toEqual([]);
+
+  await page.getByRole('button', { name: 'Play radio', exact: true }).click();
+  await expect.poll(() => hits.length, { message: 'pressing play should mount the player' }).toBeGreaterThan(0);
+});
+
 test('all routes handle corrupt storage, daylight hydration, and long labels at mobile and desktop sizes', async ({ page }) => {
   await page.evaluate(() => {
     localStorage.setItem('ember.timer', 'null');
@@ -119,7 +136,7 @@ test('all routes handle corrupt storage, daylight hydration, and long labels at 
   });
   for (const width of [320, 375, 768, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ['/', '/settings', '/log']) {
+    for (const path of ['/', '/settings', '/log', '/about', '/privacy', '/license', '/no-such-page']) {
       await page.goto(path);
       await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
       const size = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth }));
