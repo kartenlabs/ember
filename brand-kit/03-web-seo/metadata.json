@@ -1,0 +1,23 @@
+{
+  "title": "Ember — a quiet pomodoro timer | kartenlabs",
+  "description": "Make room for one thing. Ember pairs adjustable focus and break timers with gentle chimes, an optional ambient station, and a session log stored in your browser.",
+  "canonical": "https://ember.kartenlabs.com/",
+  "openGraph": {
+    "type": "website",
+    "siteName": "Ember",
+    "title": "Ember — a quiet timer with an ambient soundtrack",
+    "description": "Adjust your focus and breaks. Choose a chime. Settle into a session with optional ambient music. A project by kartenlabs.",
+    "url": "https://ember.kartenlabs.com/",
+    "image": "https://ember.kartenlabs.com/brand/ember-og-1200x630.png",
+    "imageWidth": 1200,
+    "imageHeight": 630,
+    "imageAlt": "Ember by kartenlabs. Make room for one thing. A quiet pomodoro timer displaying 25:00."
+  },
+  "social": {
+    "card": "summary_large_image",
+    "companyHandle": "@kartenlabs",
+    "note": "Confirm the platform-specific account before adding a site or creator handle to metadata."
+  },
+  "publisher": { "name": "kartenlabs", "url": "https://kartenlabs.com" },
+  "deploymentNote": "The image URL is the intended deployment location. Copy the exported PNG there before installing this metadata."
+}

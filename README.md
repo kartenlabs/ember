@@ -19,6 +19,14 @@ npm run build
 No account, no server, no database. Settings and the session log live in
 `localStorage`.
 
+## Brand and case-study kit
+
+Open [the asset gallery](brand-kit/index.html) or [the kit guide](brand-kit/00-guide/START-HERE.md)
+for outlined SVG and transparent PNG logos, Instagram and LinkedIn graphics,
+SEO images, product screenshots, company captions, and a PDF/HTML case study.
+The kit uses `ember.kartenlabs.com`, `kartenlabs.com`, and `@kartenlabs`.
+Editable source and regeneration instructions are included in the folder.
+
 Browser regression checks run against a production build:
 
 ```

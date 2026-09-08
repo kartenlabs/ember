@@ -1,0 +1,17 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Ember",
+  "url": "https://ember.kartenlabs.com/",
+  "description": "A pomodoro timer with adjustable focus and break lengths, selectable chimes, optional ambient music, and a session log stored in the browser.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "Web browser",
+  "publisher": { "@type": "Organization", "name": "kartenlabs", "url": "https://kartenlabs.com" },
+  "featureList": [
+    "Adjustable focus, short-break and long-break timers",
+    "Five synthesized completion chimes",
+    "Optional ambient station embedded through YouTube",
+    "Night and Daylight themes",
+    "Session log stored in browser local storage"
+  ]
+}
