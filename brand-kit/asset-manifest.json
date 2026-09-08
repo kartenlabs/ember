@@ -1,0 +1,568 @@
+{
+  "product": "ember",
+  "company": "kartenlabs",
+  "productURL": "https://ember.kartenlabs.com",
+  "companyURL": "https://kartenlabs.com",
+  "socialHandle": "@kartenlabs",
+  "created": "2026-09-08",
+  "assets": [
+    {
+      "file": "01-identity/png/ember-wordmark-cream-1600.png",
+      "width": 1600,
+      "height": 236,
+      "alt": "Ember pixel wordmark in cream, transparent background.",
+      "source": "01-identity/svg/ember-wordmark-cream.svg",
+      "bytes": 13425
+    },
+    {
+      "file": "01-identity/png/ember-monogram-cream-512.png",
+      "width": 512,
+      "height": 512,
+      "alt": "Ember e monogram in cream, transparent background.",
+      "source": "01-identity/svg/ember-monogram-cream.svg",
+      "bytes": 5628
+    },
+    {
+      "file": "01-identity/png/ember-wordmark-ink-1600.png",
+      "width": 1600,
+      "height": 236,
+      "alt": "Ember pixel wordmark in ink, transparent background.",
+      "source": "01-identity/svg/ember-wordmark-ink.svg",
+      "bytes": 13167
+    },
+    {
+      "file": "01-identity/png/ember-monogram-ink-512.png",
+      "width": 512,
+      "height": 512,
+      "alt": "Ember e monogram in ink, transparent background.",
+      "source": "01-identity/svg/ember-monogram-ink.svg",
+      "bytes": 5623
+    },
+    {
+      "file": "01-identity/png/ember-wordmark-amber-1600.png",
+      "width": 1600,
+      "height": 236,
+      "alt": "Ember pixel wordmark in amber, transparent background.",
+      "source": "01-identity/svg/ember-wordmark-amber.svg",
+      "bytes": 13559
+    },
+    {
+      "file": "01-identity/png/ember-monogram-amber-512.png",
+      "width": 512,
+      "height": 512,
+      "alt": "Ember e monogram in amber, transparent background.",
+      "source": "01-identity/svg/ember-monogram-amber.svg",
+      "bytes": 5623
+    },
+    {
+      "file": "01-identity/png/ember-avatar-amber-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alt": "Ember e profile avatar on a amber background.",
+      "source": "01-identity/svg/ember-avatar-amber.svg",
+      "bytes": 26778
+    },
+    {
+      "file": "03-web-seo/favicons/ember-icon-32.png",
+      "width": 32,
+      "height": 32,
+      "alt": "Ember e application icon.",
+      "bytes": 202
+    },
+    {
+      "file": "03-web-seo/favicons/ember-icon-48.png",
+      "width": 48,
+      "height": 48,
+      "alt": "Ember e application icon.",
+      "bytes": 304
+    },
+    {
+      "file": "03-web-seo/favicons/ember-icon-180.png",
+      "width": 180,
+      "height": 180,
+      "alt": "Ember e application icon.",
+      "bytes": 1315
+    },
+    {
+      "file": "03-web-seo/favicons/ember-icon-192.png",
+      "width": 192,
+      "height": 192,
+      "alt": "Ember e application icon.",
+      "bytes": 1386
+    },
+    {
+      "file": "03-web-seo/favicons/ember-icon-512.png",
+      "width": 512,
+      "height": 512,
+      "alt": "Ember e application icon.",
+      "bytes": 7654
+    },
+    {
+      "file": "01-identity/png/ember-avatar-night-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alt": "Ember e profile avatar on a night background.",
+      "source": "01-identity/svg/ember-avatar-night.svg",
+      "bytes": 26777
+    },
+    {
+      "file": "01-identity/png/ember-avatar-daylight-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alt": "Ember e profile avatar on a daylight background.",
+      "source": "01-identity/svg/ember-avatar-daylight.svg",
+      "bytes": 26775
+    },
+    {
+      "file": "01-identity/png/ember-lockup-night-1600x500.png",
+      "width": 1600,
+      "height": 500,
+      "alt": "Ember. A quiet timer. By kartenlabs.",
+      "source": "07-source/artboards/01-identity--png--ember-lockup-night-1600x500.html",
+      "bytes": 16779
+    },
+    {
+      "file": "04-product-screenshots/timer-night-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "alt": "Ember timer night desktop. Staged session data; external media omitted.",
+      "bytes": 26304
+    },
+    {
+      "file": "04-product-screenshots/timer-night-desktop-panel.png",
+      "width": 960,
+      "height": 676,
+      "alt": "Ember timer night desktop app panel, cropped at the window border. Staged data; external media omitted.",
+      "bytes": 21912
+    },
+    {
+      "file": "04-product-screenshots/timer-daylight-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "alt": "Ember timer daylight desktop. Staged session data; external media omitted.",
+      "bytes": 26238
+    },
+    {
+      "file": "04-product-screenshots/timer-daylight-desktop-panel.png",
+      "width": 960,
+      "height": 676,
+      "alt": "Ember timer daylight desktop app panel, cropped at the window border. Staged data; external media omitted.",
+      "bytes": 22020
+    },
+    {
+      "file": "04-product-screenshots/short-break-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "alt": "Ember short break desktop. Staged session data; external media omitted.",
+      "bytes": 26361
+    },
+    {
+      "file": "04-product-screenshots/settings-desktop.png",
+      "width": 1440,
+      "height": 1150,
+      "alt": "Ember settings desktop. Staged session data; external media omitted.",
+      "bytes": 59170
+    },
+    {
+      "file": "04-product-screenshots/settings-desktop-panel.png",
+      "width": 960,
+      "height": 914,
+      "alt": "Ember settings desktop app panel, cropped at the window border. Staged data; external media omitted.",
+      "bytes": 54121
+    },
+    {
+      "file": "04-product-screenshots/log-desktop-sample-data.png",
+      "width": 1440,
+      "height": 1000,
+      "alt": "Ember log desktop sample data. Staged session data; external media omitted.",
+      "bytes": 29532
+    },
+    {
+      "file": "04-product-screenshots/timer-mobile.png",
+      "width": 390,
+      "height": 844,
+      "alt": "Ember timer mobile. Staged session data; external media omitted.",
+      "bytes": 18953
+    },
+    {
+      "file": "04-product-screenshots/settings-mobile.png",
+      "width": 390,
+      "height": 1706,
+      "alt": "Ember settings mobile. Staged session data; external media omitted.",
+      "bytes": 55166
+    },
+    {
+      "file": "04-product-screenshots/log-mobile-sample-data.png",
+      "width": 390,
+      "height": 844,
+      "alt": "Ember log mobile sample data. Staged session data; external media omitted.",
+      "bytes": 24596
+    },
+    {
+      "file": "02-social/instagram/launch-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Ember by kartenlabs. Make room for one thing. A quiet pomodoro timer displaying 25:00.",
+      "source": "07-source/artboards/02-social--instagram--launch-1080x1350.html",
+      "bytes": 52967
+    },
+    {
+      "file": "02-social/instagram/square-1080x1080.png",
+      "width": 1080,
+      "height": 1080,
+      "alt": "Ember. A quiet timer. Focus mode at 25:00.",
+      "source": "07-source/artboards/02-social--instagram--square-1080x1080.html",
+      "bytes": 24338
+    },
+    {
+      "file": "02-social/instagram/story-1080x1920.png",
+      "width": 1080,
+      "height": 1920,
+      "alt": "Ember story. A little time. A little space. Visit ember.kartenlabs.com.",
+      "source": "07-source/artboards/02-social--instagram--story-1080x1920.html",
+      "bytes": 61826
+    },
+    {
+      "file": "02-social/instagram/carousel/01-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Meet Ember: a quiet pomodoro timer by kartenlabs.",
+      "source": "07-source/artboards/02-social--instagram--carousel--01-1080x1350.html",
+      "bytes": 43608
+    },
+    {
+      "file": "02-social/instagram/carousel/02-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Three adjustable timer modes: 25-minute focus, 5-minute short break, 15-minute long break. Default lengths shown.",
+      "source": "07-source/artboards/02-social--instagram--carousel--02-1080x1350.html",
+      "bytes": 44191
+    },
+    {
+      "file": "02-social/instagram/carousel/03-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Optional ambient music alongside the timer. Current station: Claude FM, music for thinking and building, by Claude, embedded via YouTube. Ember is an independent kartenlabs project.",
+      "source": "07-source/artboards/02-social--instagram--carousel--03-1080x1350.html",
+      "bytes": 86812
+    },
+    {
+      "file": "02-social/instagram/carousel/04-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Adjustable focus and break lengths, five chime options, and optional auto-start. Product screenshot with staged data.",
+      "source": "07-source/artboards/02-social--instagram--carousel--04-1080x1350.html",
+      "bytes": 92561
+    },
+    {
+      "file": "02-social/instagram/carousel/05-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Ember in its light Daylight theme. Product screenshot with staged data.",
+      "source": "07-source/artboards/02-social--instagram--carousel--05-1080x1350.html",
+      "bytes": 72537
+    },
+    {
+      "file": "02-social/instagram/carousel/06-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Ember uses a deadline-based clock, preserves active session details, and stores settings and logs in the browser.",
+      "source": "07-source/artboards/02-social--instagram--carousel--06-1080x1350.html",
+      "bytes": 101820
+    },
+    {
+      "file": "02-social/instagram/carousel/07-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Start with one session. Ember at ember.kartenlabs.com. A project by kartenlabs.",
+      "source": "07-source/artboards/02-social--instagram--carousel--07-1080x1350.html",
+      "bytes": 45954
+    },
+    {
+      "file": "02-social/instagram/ambient-station-1080x1350.png",
+      "width": 1080,
+      "height": 1350,
+      "alt": "Optional ambient music alongside the timer. Current station: Claude FM, music for thinking and building, by Claude, embedded via YouTube. Ember is an independent kartenlabs project.",
+      "source": "07-source/artboards/02-social--instagram--ambient-station-1080x1350.html",
+      "bytes": 87678
+    },
+    {
+      "file": "02-social/linkedin/launch-1200x627.png",
+      "width": 1200,
+      "height": 627,
+      "alt": "Ember by kartenlabs. Make room for one thing. ember.kartenlabs.com.",
+      "source": "07-source/artboards/02-social--linkedin--launch-1200x627.html",
+      "bytes": 29602
+    },
+    {
+      "file": "03-web-seo/images/ember-og-1200x630.png",
+      "width": 1200,
+      "height": 630,
+      "alt": "Ember — a quiet pomodoro timer by kartenlabs.",
+      "source": "07-source/artboards/03-web-seo--images--ember-og-1200x630.html",
+      "bytes": 29631
+    },
+    {
+      "file": "02-social/linkedin/company-cover-4200x700.png",
+      "width": 4200,
+      "height": 700,
+      "alt": "Ember campaign cover for kartenlabs company channels. A quiet timer. ember.kartenlabs.com.",
+      "source": "07-source/artboards/02-social--linkedin--company-cover-4200x700.html",
+      "bytes": 30324
+    },
+    {
+      "file": "02-social/linkedin/company-cover-1512x256.png",
+      "width": 1512,
+      "height": 256,
+      "alt": "Compact Ember campaign cover for kartenlabs company channels.",
+      "source": "07-source/artboards/02-social--linkedin--company-cover-1512x256.html",
+      "bytes": 11731
+    },
+    {
+      "file": "05-case-study/cover-1600x900.png",
+      "width": 1600,
+      "height": 900,
+      "alt": "Ember case study cover: Designing a quieter timer, by kartenlabs.",
+      "source": "07-source/artboards/05-case-study--cover-1600x900.html",
+      "bytes": 62823
+    },
+    {
+      "file": "05-case-study/product-showcase-1600x1200.png",
+      "width": 1600,
+      "height": 1200,
+      "alt": "Ember desktop and mobile timer interfaces. Staged product captures.",
+      "source": "07-source/artboards/05-case-study--product-showcase-1600x1200.html",
+      "bytes": 83762
+    },
+    {
+      "file": "01-identity/brand-board-1600x1200.png",
+      "width": 1600,
+      "height": 1200,
+      "alt": "Ember brand board with warm ink, cream, amber, sage and clay, and its three typefaces.",
+      "source": "07-source/artboards/01-identity--brand-board-1600x1200.html",
+      "bytes": 82003
+    },
+    {
+      "file": "05-case-study/slide-01.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 1: A quieter timer.",
+      "source": "07-source/artboards/05-case-study--slide-01.html",
+      "bytes": 74832
+    },
+    {
+      "file": "05-case-study/slide-02.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 2: A small brief. A clear direction.",
+      "source": "07-source/artboards/05-case-study--slide-02.html",
+      "bytes": 79206
+    },
+    {
+      "file": "05-case-study/slide-03.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 3: Three modes. One visual language.",
+      "source": "07-source/artboards/05-case-study--slide-03.html",
+      "bytes": 81561
+    },
+    {
+      "file": "05-case-study/slide-04.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 4: Make the next action obvious.",
+      "source": "07-source/artboards/05-case-study--slide-04.html",
+      "bytes": 81612
+    },
+    {
+      "file": "05-case-study/slide-05.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 5: A soundtrack beside the clock.",
+      "source": "07-source/artboards/05-case-study--slide-05.html",
+      "bytes": 107066
+    },
+    {
+      "file": "05-case-study/slide-06.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 6: A clock that remembers.",
+      "source": "07-source/artboards/05-case-study--slide-06.html",
+      "bytes": 77610
+    },
+    {
+      "file": "05-case-study/slide-07.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 7: Checked in code. Ready to learn.",
+      "source": "07-source/artboards/05-case-study--slide-07.html",
+      "bytes": 89823
+    },
+    {
+      "file": "05-case-study/slide-08.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 8: A working product, with room to grow.",
+      "source": "07-source/artboards/05-case-study--slide-08.html",
+      "bytes": 85113
+    },
+    {
+      "file": "05-case-study/slide-09.png",
+      "width": 1600,
+      "height": 1000,
+      "alt": "Case study slide 9: Start with one session.",
+      "source": "07-source/artboards/05-case-study--slide-09.html",
+      "bytes": 47227
+    }
+  ],
+  "additionalFiles": [
+    {
+      "file": "08-licenses/ATTRIBUTION.md",
+      "bytes": 2587
+    },
+    {
+      "file": "08-licenses/Pixelarticons-MIT.txt",
+      "bytes": 1072
+    },
+    {
+      "file": "08-licenses/ibmplexmono-OFL.txt",
+      "bytes": 4456
+    },
+    {
+      "file": "08-licenses/instrumentsans-OFL.txt",
+      "bytes": 4403
+    },
+    {
+      "file": "08-licenses/silkscreen-OFL.txt",
+      "bytes": 4394
+    },
+    {
+      "file": "07-source/outline-wordmark.py",
+      "bytes": 1203
+    },
+    {
+      "file": "07-source/render.mjs",
+      "bytes": 35556
+    },
+    {
+      "file": "07-source/validate.mjs",
+      "bytes": 2950
+    },
+    {
+      "file": "07-source/fonts/mono.woff2",
+      "bytes": 10052
+    },
+    {
+      "file": "07-source/fonts/pixel-bold.woff2",
+      "bytes": 3208
+    },
+    {
+      "file": "07-source/fonts/pixel-regular.woff2",
+      "bytes": 3528
+    },
+    {
+      "file": "07-source/fonts/sans.woff2",
+      "bytes": 29904
+    },
+    {
+      "file": "06-copy/carousel-transcript.md",
+      "bytes": 1370
+    },
+    {
+      "file": "06-copy/press-and-profile.md",
+      "bytes": 2010
+    },
+    {
+      "file": "06-copy/social-copy.md",
+      "bytes": 4726
+    },
+    {
+      "file": "05-case-study/case-study.md",
+      "bytes": 7943
+    },
+    {
+      "file": "05-case-study/ember-case-study.pdf",
+      "bytes": 103950
+    },
+    {
+      "file": "04-product-screenshots/README.md",
+      "bytes": 1013
+    },
+    {
+      "file": "03-web-seo/INTEGRATION.md",
+      "bytes": 3080
+    },
+    {
+      "file": "03-web-seo/metadata.json",
+      "bytes": 1247
+    },
+    {
+      "file": "03-web-seo/structured-data.json",
+      "bytes": 743
+    },
+    {
+      "file": "03-web-seo/images/ember-og-1200x630.webp",
+      "bytes": 20462
+    },
+    {
+      "file": "03-web-seo/favicons/favicon.ico",
+      "bytes": 326
+    },
+    {
+      "file": "03-web-seo/favicons/icon.svg",
+      "bytes": 374
+    },
+    {
+      "file": "02-social/linkedin/ember-document-carousel.pdf",
+      "bytes": 118166
+    },
+    {
+      "file": "01-identity/svg/ember-avatar-amber.svg",
+      "bytes": 374
+    },
+    {
+      "file": "01-identity/svg/ember-avatar-daylight.svg",
+      "bytes": 374
+    },
+    {
+      "file": "01-identity/svg/ember-avatar-night.svg",
+      "bytes": 374
+    },
+    {
+      "file": "01-identity/svg/ember-monogram-amber.svg",
+      "bytes": 288
+    },
+    {
+      "file": "01-identity/svg/ember-monogram-cream.svg",
+      "bytes": 288
+    },
+    {
+      "file": "01-identity/svg/ember-monogram-ink.svg",
+      "bytes": 288
+    },
+    {
+      "file": "01-identity/svg/ember-wordmark-amber.svg",
+      "bytes": 701
+    },
+    {
+      "file": "01-identity/svg/ember-wordmark-cream.svg",
+      "bytes": 701
+    },
+    {
+      "file": "01-identity/svg/ember-wordmark-ink.svg",
+      "bytes": 701
+    },
+    {
+      "file": "00-guide/BRAND-GUIDE.md",
+      "bytes": 4613
+    },
+    {
+      "file": "00-guide/PLATFORMS-AND-EXPORTS.md",
+      "bytes": 3082
+    },
+    {
+      "file": "00-guide/START-HERE.md",
+      "bytes": 5550
+    }
+  ]
+}

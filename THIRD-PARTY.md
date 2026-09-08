@@ -2,8 +2,10 @@
 
 Ember bundles or depends on the work below. Every item here is either
 open-licensed or used through its rights holder's own player. **No music,
-audio file, image, video, or font binary from a third party is redistributed
-by this project.**
+audio file or video from the ambient stream is redistributed by this project.**
+The `brand-kit/` folder includes product screenshots and licensed font subsets
+for offline presentations, with the corresponding licenses in
+`brand-kit/08-licenses/`.
 
 ---
 
@@ -95,11 +97,14 @@ separate.
 
 ## What is not here
 
-- **No logo.** None was supplied and none was invented. The wordmark is the
-  literal word `ember` set in pixel type.
-- **No photography, illustration, or generated imagery** of any kind.
+- **The wordmark** is the literal word `ember` set in pixel type. The brand kit
+  adds outlined exports and an `e` avatar derived from that same letterform.
+- **No third-party photography or stream imagery.** The brand kit contains
+  product captures and original code-rendered layouts; external video visuals
+  are omitted from the captures.
 - **No audio files** — no `.mp3`, `.wav`, `.ogg`, or any other.
-- **No font binaries** in version control.
+- **Licensed font subsets** are included in the brand kit for offline use.
+  Their OFL license files travel with them.
 
 ---
 
