@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/kartenlabs/ember/security/advisories/new
+    about: Report privately, not as a public issue.
+  - name: Contributing guide
+    url: https://github.com/kartenlabs/ember/blob/main/CONTRIBUTING.md
+    about: How to set up, run the checks, and what the house rules are.

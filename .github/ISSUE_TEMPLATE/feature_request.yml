@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest something Ember could do.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ember is deliberately small. The best proposals explain the problem
+        first, and leave room for the answer to be a simpler one than the
+        feature you had in mind.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve
+      description: What are you trying to do that Ember makes hard today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you have in mind
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you already tried
+      description: Workarounds, other tools, or settings that nearly worked.
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Fit with the project
+      description: >
+        Not a test — just a prompt to think it through. Ember has three
+        dependencies, no backend, and stores everything in the browser.
+      options:
+        - label: This can work without a server or an account.
+        - label: This can work without adding a dependency.
+        - label: I would be interested in implementing it myself.
