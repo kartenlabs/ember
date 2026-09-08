@@ -1,11 +1,18 @@
 # Third-party notices
 
+Ember's own code is released under the MIT licence — see [LICENSE](./LICENSE).
+This file covers everything else.
+
 Ember bundles or depends on the work below. Every item here is either
 open-licensed or used through its rights holder's own player. **No music,
 audio file or video from the ambient stream is redistributed by this project.**
 The `brand-kit/` folder includes product screenshots and licensed font subsets
 for offline presentations, with the corresponding licenses in
 `brand-kit/08-licenses/`.
+
+A reader-facing summary of these notices is published at
+[/license](https://ember.kartenlabs.com/license); when the two disagree, this
+file is the authority.
 
 ---
 

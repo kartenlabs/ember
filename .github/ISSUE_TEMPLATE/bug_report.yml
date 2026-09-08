@@ -1,0 +1,69 @@
+name: Bug report
+description: Something in Ember does not work the way it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. If the problem is
+        security-related, please follow
+        [SECURITY.md](https://github.com/kartenlabs/ember/blob/main/SECURITY.md)
+        instead of filing a public issue.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Set focus length to ...
+        2. Press start
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Firefox 141 on Linux, Safari 18 on iOS
+    validations:
+      required: true
+
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did it happen
+      options:
+        - Timer
+        - Session log
+        - Settings
+        - Fullscreen session
+        - Ambient station
+        - An information page (about, privacy, licence)
+        - Somewhere else
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: Anything red in the browser console, if you checked. Optional.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I can reproduce this in a fresh browser profile or private window.
